@@ -1,6 +1,8 @@
 alias sssh="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-alias oe="op run -- "
+alias oe="op run --env-file=.env -- "
 
 export SSH_AUTH_SOCK=~/.1password/agent.sock
+
+export PATH="/Applications/Postgres.app/Contents/Versions/14/bin/:$PATH"
 
 . $HOME/.asdf/asdf.sh
