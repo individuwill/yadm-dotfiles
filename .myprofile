@@ -1,0 +1,5 @@
+alias oe="op run -- "
+
+export SSH_AUTH_SOCK=~/.1password/agent.sock
+
+. $HOME/.asdf/asdf.sh
