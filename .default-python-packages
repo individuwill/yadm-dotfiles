@@ -1,0 +1,9 @@
+pytest
+tox
+invoke
+mypy
+bandit
+flake8
+black
+pydocstyle
+virtualenv
