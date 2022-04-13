@@ -1,0 +1,39 @@
+{
+    "terminal.integrated.fontFamily": "FuraCode Nerd Font",
+    "editor.fontFamily": "FuraCode Nerd Font",
+    "editor.formatOnSave": true,
+    "editor.fontLigatures": true,
+    "editor.fontSize": 14,
+    "terminal.integrated.fontSize": 14,
+    "editor.renderWhitespace": "boundary",
+    "editor.rulers": [
+        80
+    ],
+    "workbench.iconTheme": "vscode-icons",
+    "editor.cursorBlinking": "phase",
+    "vsicons.dontShowNewVersionMessage": true,
+    /* vscode installed 
+    "idf.espIdfPath": "/Users/wsmith/dev/microcontroller/esp/esp_vscode_installs/master/esp-idf",
+    "idf.pythonBinPath": "/Users/wsmith/dev/microcontroller/esp/esp_vscode_installs/master/tools/python_env/idf5.0_py3.10_env/bin/python",
+    "idf.toolsPath": "/Users/wsmith/dev/microcontroller/esp/esp_vscode_installs/master/tools",
+    "idf.customExtraPaths": "/Users/wsmith/dev/microcontroller/esp/esp_vscode_installs/master/tools/tools/xtensa-esp32-elf/esp-2021r2-8.4.0/xtensa-esp32-elf/bin:/Users/wsmith/dev/microcontroller/esp/esp_vscode_installs/master/tools/tools/xtensa-esp32s2-elf/esp-2021r2-8.4.0/xtensa-esp32s2-elf/bin:/Users/wsmith/dev/microcontroller/esp/esp_vscode_installs/master/tools/tools/xtensa-esp32s3-elf/esp-2021r2-8.4.0/xtensa-esp32s3-elf/bin:/Users/wsmith/dev/microcontroller/esp/esp_vscode_installs/master/tools/tools/riscv32-esp-elf/esp-2021r2-8.4.0/riscv32-esp-elf/bin:/Users/wsmith/dev/microcontroller/esp/esp_vscode_installs/master/tools/tools/esp32ulp-elf/2.28.51-esp-20191205/esp32ulp-elf-binutils/bin:/Users/wsmith/dev/microcontroller/esp/esp_vscode_installs/master/tools/tools/esp32s2ulp-elf/2.28.51-esp-20191205/esp32s2ulp-elf-binutils/bin:/Users/wsmith/dev/microcontroller/esp/esp_vscode_installs/master/tools/tools/openocd-esp32/v0.10.0-esp32-20210902/openocd-esp32/bin",
+    "idf.customExtraVars": "{\"OPENOCD_SCRIPTS\":\"/Users/wsmith/dev/microcontroller/esp/esp_vscode_installs/master/tools/tools/openocd-esp32/v0.10.0-esp32-20210902/openocd-esp32/share/openocd/scripts\"}",
+    "idf.gitPath": "/usr/bin/git",
+    "idf.adapterTargetName": "esp32",
+    */
+    /* my hand coded settings */
+    "idf.espIdfPath": "/Users/wsmith/dev/microcontroller/esp/esp-idf",
+    "idf.pythonBinPath": "/Users/wsmith/dev/microcontroller/esp/tools/python_env/idf5.0_py3.10_env/bin/python",
+    "idf.toolsPath": "/Users/wsmith/dev/microcontroller/esp/tools",
+    "idf.customExtraPaths": "/Users/wsmith/dev/microcontroller/esp/tools/tools/openocd-esp32/v0.10.0-esp32-20210902/openocd-esp32/bin:/Users/wsmith/dev/microcontroller/esp/tools/tools/xtensa-esp32-elf/esp-2021r2-8.4.0/xtensa-esp32-elf/bin",
+    "idf.customExtraVars": "{\"OPENOCD_SCRIPTS\":\"/Users/wsmith/dev/microcontroller/esp/tools/tools/openocd-esp32/v0.10.0-esp32-20210902/openocd-esp32/share/openocd/scripts\"}",
+    "idf.gitPath": "/usr/bin/git",
+    "idf.adapterTargetName": "esp32",
+    /*
+    "idf.openOcdConfigs": [
+        "interface/ftdi/esp32_devkitj_v1.cfg",
+        "board/esp32-wrover.cfg"
+    ]
+    */
+    "clang-format.executable": "/opt/homebrew/bin/clang-format"
+}
