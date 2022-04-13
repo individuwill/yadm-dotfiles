@@ -1,0 +1,4 @@
+[yadm]
+	cipher = openssl
+	openssl-ciphername = aes-256-cbc
+	openssl-old = true

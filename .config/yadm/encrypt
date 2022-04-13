@@ -1,0 +1,2 @@
+.ssh/*.key
+.config/yadm/test_encrypt
