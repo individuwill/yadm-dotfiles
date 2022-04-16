@@ -33,3 +33,4 @@ export SSH_AUTH_SOCK=~/.1password/agent.sock
 export PATH="$HOME/.local/bin:$HOME/bin:/Applications/Postgres.app/Contents/Versions/14/bin/:/opt/homebrew/bin:$PATH"
 
 . $HOME/.asdf/asdf.sh
+
