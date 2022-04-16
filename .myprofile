@@ -1,8 +1,35 @@
+ssh() {
+    if ! [ -x "$(command -v mosh)" ]; then
+        echo "mosh client not found."
+        command ssh "$@"
+    else
+        echo "Found mosh client."
+        command mosh "$@"
+        [[ $? -ne 0 ]] && (echo "mosh server not found" ; command ssh "$@")
+    fi
+}
+psql() {
+    if ! [ -x "$(command -v pgcli)" ]; then
+        echo "pgcli client not found."
+        command psql "$@"
+    else
+        echo "Found pgcli client."
+        command pgcli "$@"
+    fi
+}
+export EDITOR="vim"
 alias sssh="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 alias oe="op run --env-file=.env -- "
+alias yt="youtube-dl --external-downloader aria2c --external-downloader-args '-c -j 3 -x 3 -s 3 -k 1M'"
+alias ls="lsd"
+alias cat="bat"
+alias tree="ls --tree"
+alias find="fd"
+alias du="dust"
+alias df="duf"
 
 export SSH_AUTH_SOCK=~/.1password/agent.sock
 
-export PATH="$HOME/bin:/Applications/Postgres.app/Contents/Versions/14/bin/:$PATH"
+export PATH="$HOME/.local/bin:$HOME/bin:/Applications/Postgres.app/Contents/Versions/14/bin/:/opt/homebrew/bin:$PATH"
 
 . $HOME/.asdf/asdf.sh

@@ -9,3 +9,4 @@ pydocstyle
 virtualenv
 pipenv
 virtualenvwrapper
+pgcli
