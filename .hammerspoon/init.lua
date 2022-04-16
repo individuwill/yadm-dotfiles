@@ -9,7 +9,7 @@ function checkStatus()
   if #modified_files > 0 then
     print('need to alert')
     file_list_str = '* ' .. stringx.join('\n* ', modified_files)
-    print(file_list_str)
+    print("modified files:\n" .. file_list_str)
     hs.notify.new({title="Yadm status", informativeText= file_list_str}):send()
   end
 end
