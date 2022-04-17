@@ -16,6 +16,12 @@ function M.get_execute_output(command)
   return stringx.strip(output)
 end
 
+function M.fetch()
+  command = "yadm fetch"
+  output = M.get_execute_output(command)
+  print(output)
+end
+
 function M.is_ahead()
   command = "yadm status -sb"
   output = M.get_execute_output(command)

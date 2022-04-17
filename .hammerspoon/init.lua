@@ -27,8 +27,13 @@ function checkRemoteStatus()
   end
 end
 
+function fetchDotfiles()
+  ys.fetch()
+end
+
 function checkStatus()
   -- hs.notify.new({title="Hammerspoon", informativeText="Hello World"}):send()
+  fetchDotfiles()
   checkModifiedFiles()
   checkRemoteStatus()
 end
