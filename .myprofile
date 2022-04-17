@@ -1,13 +1,13 @@
-ssh() {
-    if ! [ -x "$(command -v mosh)" ]; then
-        echo "mosh client not found."
-        command ssh "$@"
-    else
-        echo "Found mosh client."
-        command mosh "$@"
-        [[ $? -ne 0 ]] && (echo "mosh server not found" ; command ssh "$@")
-    fi
-}
+# ssh() {
+#     if ! [ -x "$(command -v mosh)" ]; then
+#         echo "mosh client not found."
+#         command ssh "$@"
+#     else
+#         echo "Found mosh client."
+#         command mosh "$@"
+#         [[ $? -ne 0 ]] && (echo "mosh server not found" ; command ssh "$@")
+#     fi
+# }
 psql() {
     if ! [ -x "$(command -v pgcli)" ]; then
         echo "pgcli client not found."
