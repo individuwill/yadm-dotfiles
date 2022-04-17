@@ -15,16 +15,12 @@ function checkModifiedFiles()
 end
 
 function checkRemoteStatus()
-  command = "yadm status -sb"
-  output, status, c_type, rc = hs.execute(command, true)
-  print(output)
-  print(string.find(output, "ahead [0-9]+") ~= nil)
-  if string.find(output, "ahead [0-9]+") ~= nil then
+  if ys.is_ahead() then
     print("we're ahead")
     hs.notify.new({title="Yadm remote", informativeText="You need to push."}):send()
   end
 
-  if string.find(output, "behind [0-9]+") ~= nil then
+  if ys.is_behind() then
     print("we're behind")
     hs.notify.new({title="Yadm status", informativeText="You need to pull."}):send()
   end
@@ -38,4 +34,4 @@ end
 
 checkStatus()
 
-hs.timer.doEvery(10, checkStatus)
+hs.timer.doEvery(60, checkStatus)
