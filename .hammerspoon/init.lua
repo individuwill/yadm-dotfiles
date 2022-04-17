@@ -1,14 +1,15 @@
+hs.loadSpoon("ReloadConfiguration")
+spoon.ReloadConfiguration:start()
+
 stringx = require('pl.stringx')
 ys = require('yadm_status')
 
 function checkModifiedFiles()
-  modified_files = ys.get_modified_files(
-    ys.get_execute_output('yadm diff-index HEAD -- ')
-  )
+  modified_files = ys.get_modified_files()
 
   if #modified_files > 0 then
     print('need to alert')
-    file_list_str = '* ' .. stringx.join('\n* ', modified_files)
+    local file_list_str = '* ' .. stringx.join('\n* ', modified_files)
     print("modified files:\n" .. file_list_str)
     hs.notify.new({title="Yadm status", informativeText= file_list_str}):send()
   end
