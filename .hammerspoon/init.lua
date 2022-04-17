@@ -40,4 +40,5 @@ end
 
 checkStatus()
 
-hs.timer.doEvery(60, checkStatus)
+myTimer = hs.timer.doEvery(60, checkStatus)
+myTimer:start()
