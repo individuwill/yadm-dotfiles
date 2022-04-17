@@ -1,3 +1,4 @@
+export TERM="xterm-256color"
 # ssh() {
 #     if ! [ -x "$(command -v mosh)" ]; then
 #         echo "mosh client not found."
