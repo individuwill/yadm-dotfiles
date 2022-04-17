@@ -1,0 +1,176 @@
+scriptencoding utf-8
+set encoding=utf-8
+
+" Many settings discovered and copied from
+" http://amix.dk/vim/vimrc.html
+set nocompatible
+filetype off
+
+"set shell=/bin/bash
+"set shell=/usr/local/bin/bash
+"set shell=/bin/zsh
+set shell=/usr/local/bin/zsh
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-fugitive'
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'scrooloose/nerdtree'
+Plug 'Glench/Vim-Jinja2-Syntax'
+Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'scrooloose/syntastic'
+Plug 'airblade/vim-gitgutter'
+Plug 'Yggdroot/indentLine'
+
+"Bundle 'Valloric/YouCompleteMe'
+call plug#end()
+" Execute ':PlugInstall' to install plugins
+
+let g:rustfmt_autosave = 1
+let g:ycm_confirm_extra_conf = 0
+
+" Configure vim-go plugin
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <leader>e <Plug>(go-rename)
+au FileType go nmap <leader>gb <Plug>(go-doc-browser)
+let g:go_highlight_functions = 1  
+let g:go_highlight_methods = 1  
+let g:go_highlight_structs = 1  
+let g:go_highlight_operators = 1  
+let g:go_highlight_build_constraints = 1 
+let g:go_metalinter_autosave = 1
+let g:go_fmt_command = "gofmt"
+map <C-n> :lne<CR>
+map <C-m> :lp<CR>
+
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
+\}
+
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1 " show buffer tabs across top
+
+"let g:indentLine_char = '|'
+let g:indentLine_noConcealCursor=""
+let g:indentLine_concealcursor = 0
+"autocmd InsertEnter *.json setlocal conceallevel=2 concealcursor=
+"autocmd InsertLeave *.json setlocal conceallevel=2 concealcursor=inc
+
+colorscheme desert "colorscheme elflord
+set background=dark
+set t_Co=256
+
+set ffs=unix,dos,mac
+set autoread " detect when file changed externally
+
+filetype plugin indent on
+syntax on " syntax highlighting
+set autoindent
+set smartindent
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+set hidden " enable hiding buffers with changes un-unsaved
+
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+
+"set lines=50 columns=120
+set cursorline
+" following 2 lines will highlight text after a certain length
+"highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+"match OverLength /\%120v.\+/ "apply above highlight to column 120+
+set colorcolumn=80 " highlight right margin/gutter at column
+set ruler " show current position
+set scrolloff=7 " show # lines above/below cursor when scrolling
+set number
+set title
+
+" config so that when using :set list command, white space is shown
+" use :set nolist to undo
+"set list listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<
+set list listchars=eol:¬,tab:»·,trail:~,extends:>,precedes:<
+set incsearch
+set hlsearch " highlight search results, use :nohlsearch to turn off
+let loaded_matchparen = 1 " disable highlighting matching parens
+set matchtime=2 " blink 2 tenths of a second when showing matching brackets
+set showmatch " shaow matching brackets when indicator is over them
+" change paren match colors if enabled
+hi MatchParen cterm=none ctermbg=green ctermfg=blue 
+" configure backspace to act like normal text editor
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+
+set wildmenu
+" Don't let wild show auto complete for the following files
+set wildignore=*.o,*.obj,*.bak,*.exe,*.py[co],*.swp,*~,*.pyc,.svn
+set cmdheight=2 " height of command bar at bottom of screen
+set laststatus=2 " always show status line
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ At:\ %l,\%c
+
+set mouse=a
+if !has('nvim')
+  set ttymouse=xterm
+endif
+"let g:nvim_json_syntax_conceal = 0
+set clipboard=unnamed
+""""""""""""""""""""""""""""""
+" Commands & Mappings
+""""""""""""""""""""""""""""""
+command Clearsearch let @/ = ""
+command Thtml set ft=html | execute "%!tidy -q -i --show-errors 0 --doctype omit"
+"command Tc %!astyle --style=java --pad-oper --add-brackets --break-blocks
+command Tc %!uncrustify -q -l C -c ~/.uncrustify/mystyle.cfg
+command Tcpp %!uncrustify -q -l CPP -c ~/.uncrustify/mystyle.cfg
+command Tjava %!uncrustify -q -l JAVA -c ~/.uncrustify/mystyle.cfg
+command Hex %!xxd
+command Unhex %!xxd -r
+" remap a double "j" to escape from insert mode
+" imap jj <Esc>
+" Remap leader "\" to a comma
+let mapleader = ","
+map <leader>ss :setlocal spell!<cr>
+map <leader>cs :Clearsearch<cr>
+map <leader>nt :NERDTreeToggle<cr>
+
+" Making moving between windows easier
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+map <F2> :NERDTreeToggle<CR>
+map <F3> :TlistToggle<CR>
+
+" CtrlP plugin shortcuts
+nmap <leader>p :CtrlP<cr>
+nmap <leader>bb :CtrlPBuffer<cr>
+nmap <leader>bm :CtrlPMixed<cr>
+nmap <leader>bs :CtrlPMRU<cr>
+
+" Enable quickly changing font size
+nmap <leader>fs :set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11<cr>
+nmap <leader>fn :set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h18<cr>
+
+""""""""""""""""""""""""""""""
+" Functions
+""""""""""""""""""""""""""""""
+" Returns true if paste mode is enabled
+function! HasPaste()
+	if &paste
+		return 'PASTE MODE  '
+	en
+	return ''
+endfunction
+
