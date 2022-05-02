@@ -1,0 +1,17 @@
+
+# disable mouse control of mpv
+osc=no
+
+fullscreen
+image-display-duration=inf
+screenshot-template=~/Desktop/mpv_screenshot_%n
+screenshot-format=png
+
+osd-bar-align-y=1
+osd-bar-h=2
+osd-color='#CCFFFFFF'
+osd-level=3
+osd-playing-msg='${filename}\n${playlist-pos}/${playlist-count}'
+osd-font-size=20
+osd-duration=2500
+input-right-alt-gr=no
