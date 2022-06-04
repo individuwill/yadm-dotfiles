@@ -9,7 +9,8 @@ filetype off
 "set shell=/bin/bash
 "set shell=/usr/local/bin/bash
 "set shell=/bin/zsh
-set shell=/usr/local/bin/zsh
+"set shell=/usr/local/bin/zsh
+set shell=/opt/homebrew/bin/zsh
 
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
