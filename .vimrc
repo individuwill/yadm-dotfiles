@@ -64,7 +64,7 @@ let g:airline#extensions#tabline#enabled = 1 " show buffer tabs across top
 
 "let g:indentLine_char = '|'
 let g:indentLine_noConcealCursor=""
-let g:indentLine_concealcursor = 0
+let g:indentLine_concealcursor = ""
 "autocmd InsertEnter *.json setlocal conceallevel=2 concealcursor=
 "autocmd InsertLeave *.json setlocal conceallevel=2 concealcursor=inc
 
