@@ -1,6 +1,6 @@
 {
-    "terminal.integrated.fontFamily": "FuraCode Nerd Font",
-    "editor.fontFamily": "FuraCode Nerd Font",
+    "terminal.integrated.fontFamily": "FiraCode Nerd Font",
+    "editor.fontFamily": "FiraCode Nerd Font",
     "editor.formatOnSave": true,
     "editor.fontLigatures": true,
     "editor.fontSize": 14,
@@ -37,5 +37,6 @@
     */
     "clang-format.executable": "/opt/homebrew/bin/clang-format",
     "C_Cpp.clang_format_fallbackStyle": "{BasedOnStyle: Google, IndentWidth: 4}",
-    "C_Cpp.intelliSenseEngine": "Tag Parser"
+    "C_Cpp.intelliSenseEngine": "Tag Parser",
+    "python.formatting.provider": "black"
 }
