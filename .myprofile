@@ -31,7 +31,7 @@ alias df="duf"
 
 export SSH_AUTH_SOCK=~/.1password/agent.sock
 
-export PATH="$HOME/.local/bin:$HOME/bin:/Applications/Postgres.app/Contents/Versions/14/bin/:/opt/homebrew/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/bin:$HOME/.rd/bin:/Applications/Postgres.app/Contents/Versions/14/bin/:/opt/homebrew/bin:$PATH"
 
 eval "$(direnv hook zsh)"
 source $HOME/.asdf/asdf.sh
