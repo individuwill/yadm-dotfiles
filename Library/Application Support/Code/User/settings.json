@@ -38,5 +38,6 @@
     "clang-format.executable": "/opt/homebrew/bin/clang-format",
     "C_Cpp.clang_format_fallbackStyle": "{BasedOnStyle: Google, IndentWidth: 4}",
     "C_Cpp.intelliSenseEngine": "Tag Parser",
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "black",
+    "redhat.telemetry.enabled": false
 }
