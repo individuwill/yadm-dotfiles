@@ -32,9 +32,13 @@ alias df="duf"
 export SSH_AUTH_SOCK=~/.1password/agent.sock
 
 export DOTNET_ROOT=/usr/local/share/dotnet
+export PAGER=most
 
-export PATH="$HOME/.local/bin:$HOME/bin:$DOTNET_ROOT:$HOME/.rd/bin:/Applications/Postgres.app/Contents/Versions/14/bin/:/opt/homebrew/bin:$PATH"
+export PATH="$HOME/.rd/bin:/Library/Application\ Support/Netskope/STAgent:$HOME/google-cloud-sdk/bin:$HOME/.poetry/bin:$HOME/.local/bin:$HOME/bin:$DOTNET_ROOT:/Applications/Postgres.app/Contents/Versions/14/bin/:/opt/homebrew/bin:$PATH"
 
 eval "$(direnv hook zsh)"
 source $HOME/.asdf/asdf.sh
+#source <(kubectl completion zsh)
 
+source "$HOME/.config/netskope/env.sh"
+source "$HOME/.griphook/env"

@@ -1,6 +1,6 @@
 {
-    "terminal.integrated.fontFamily": "FiraCode Nerd Font",
-    "editor.fontFamily": "FiraCode Nerd Font",
+    "terminal.integrated.fontFamily": "FiraCode Nerd Font, FiraCode NF",
+    "editor.fontFamily": "FiraCode Nerd Font, FiraCode NF",
     "editor.formatOnSave": true,
     "editor.fontLigatures": true,
     "editor.fontSize": 14,
@@ -39,5 +39,18 @@
     "C_Cpp.clang_format_fallbackStyle": "{BasedOnStyle: Google, IndentWidth: 4}",
     "C_Cpp.intelliSenseEngine": "Tag Parser",
     "python.formatting.provider": "black",
-    "redhat.telemetry.enabled": false
+    "redhat.telemetry.enabled": false,
+    "go.toolsManagement.autoUpdate": true,
+    "[svelte]": {
+        "editor.defaultFormatter": "svelte.svelte-vscode"
+    },
+    "svelte.enable-ts-plugin": true,
+    "svelte.plugin.svelte.note-new-transformation": false,
+    "remote.SSH.remotePlatform": {
+        "172.16.2.241": "linux",
+        "41-rp-wsmith": "linux"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }
