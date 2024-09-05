@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # install brew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
@@ -5,6 +7,7 @@
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # install brew cli tools
+brew install yadm
 brew install lsd
 brew install bat
 brew install fd
@@ -13,3 +16,5 @@ brew install dust
 brew install duf
 brew install direnv
 
+# decrypt
+yadm decrypt
