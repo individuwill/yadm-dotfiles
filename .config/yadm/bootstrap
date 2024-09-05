@@ -16,6 +16,12 @@ brew install dust
 brew install duf
 brew install direnv
 brew install --cask font-fira-code-nerd-font
+brew install --cask visual-studio-code
+brew install --cask bettertouchtool
+brew install --cask kitty
+
+# brew install --cask bambu-studio
+# brew install --cask orcaslicer
 
 # decrypt
 yadm decrypt
