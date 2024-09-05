@@ -34,7 +34,7 @@ export SSH_AUTH_SOCK=~/.1password/agent.sock
 export DOTNET_ROOT=/usr/local/share/dotnet
 export PAGER=most
 
-export PATH="$.cargo/bin:$HOME/.rd/bin:$HOME/google-cloud-sdk/bin:$HOME/.poetry/bin:$HOME/.local/bin:$HOME/bin:$DOTNET_ROOT:/opt/homebrew/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$HOME/.rd/bin:$HOME/google-cloud-sdk/bin:$HOME/.poetry/bin:$HOME/.local/bin:$HOME/bin:$DOTNET_ROOT:/opt/homebrew/bin:$PATH"
 
 {% if yadm.class == "Work" %}
 export PATH="Library/Application\ Support/Netskope/STAgent:/Applications/Postgres.app/Contents/Versions/14/bin/:$PATH"
