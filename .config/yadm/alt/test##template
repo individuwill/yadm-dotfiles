@@ -1,0 +1,11 @@
+# this is a test file
+
+{% if yadm.class == "Home" %}
+This is a home template
+{% endif %}
+
+
+{% if yadm.class == "Work" %}
+This is a work template
+{% endif %}
+
