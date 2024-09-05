@@ -15,6 +15,7 @@ brew install mpv
 brew install dust
 brew install duf
 brew install direnv
+brew install --cask font-fira-code-nerd-font
 
 # decrypt
 yadm decrypt
