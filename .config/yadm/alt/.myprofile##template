@@ -34,7 +34,8 @@ export SSH_AUTH_SOCK=~/.1password/agent.sock
 export DOTNET_ROOT=/usr/local/share/dotnet
 export PAGER=most
 
-export PATH="$HOME/.cargo/bin:$HOME/.rd/bin:$HOME/google-cloud-sdk/bin:$HOME/.poetry/bin:$HOME/.local/bin:$HOME/bin:$DOTNET_ROOT:/opt/homebrew/bin:$PATH"
+export NVM_DIR="$HOME/.nvm"
+export PATH="$HOME/.cargo/bin:$HOME/.rd/bin:$HOME/google-cloud-sdk/bin:$HOME/.poetry/bin:$HOME/.local/bin:$HOME/bin:$DOTNET_ROOT:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 
 {% if yadm.class == "Work" %}
 export PATH="Library/Application\ Support/Netskope/STAgent:/Applications/Postgres.app/Contents/Versions/14/bin/:$PATH"
@@ -50,5 +51,12 @@ source $HOME/.asdf/asdf.sh
 eval "$(direnv hook zsh)"
 #source <(kubectl completion zsh)
 
+# UV Python
 eval "$(uv generate-shell-completion zsh)"
 
+# Rust / Cargo
+. "$HOME/.cargo/env"
+
+# Node / NVM
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
