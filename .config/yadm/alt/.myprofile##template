@@ -35,7 +35,7 @@ export DOTNET_ROOT=/usr/local/share/dotnet
 export PAGER=most
 
 export NVM_DIR="$HOME/.nvm"
-export PATH="$HOME/.config/emacs/bin:/Applications/WezTerm.app/Contents/MacOS:$HOME/.cargo/bin:$HOME/.rd/bin:$HOME/google-cloud-sdk/bin:$HOME/.poetry/bin:$HOME/.local/bin:$HOME/bin:$DOTNET_ROOT:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+export PATH="$HOME/.config/emacs/bin:/Applications/WezTerm.app/Contents/MacOS:$HOME/.cargo/bin:/opt/homebrew/opt/coreutils/libexec/gnubin:$HOME/.rd/bin:$HOME/google-cloud-sdk/bin:$HOME/.poetry/bin:$HOME/.local/bin:$HOME/bin:$DOTNET_ROOT:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 
 # wezterm autocompletions
 eval "$(wezterm shell-completion --shell zsh)"
