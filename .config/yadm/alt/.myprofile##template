@@ -35,7 +35,10 @@ export DOTNET_ROOT=/usr/local/share/dotnet
 export PAGER=most
 
 export NVM_DIR="$HOME/.nvm"
-export PATH="$HOME/.cargo/bin:$HOME/.rd/bin:$HOME/google-cloud-sdk/bin:$HOME/.poetry/bin:$HOME/.local/bin:$HOME/bin:$DOTNET_ROOT:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+export PATH="/Applications/WezTerm.app/Contents/MacOS:$HOME/.cargo/bin:$HOME/.rd/bin:$HOME/google-cloud-sdk/bin:$HOME/.poetry/bin:$HOME/.local/bin:$HOME/bin:$DOTNET_ROOT:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+
+# wezterm autocompletions
+eval "$(wezterm shell-completion --shell zsh)"
 
 {% if yadm.class == "Work" %}
 export PATH="Library/Application\ Support/Netskope/STAgent:/Applications/Postgres.app/Contents/Versions/14/bin/:$PATH"
