@@ -1,3 +1,12 @@
+###########################################################
+####
+#### Do not edit this from ~/.myprofile
+#### This file is controlled by yadm!
+#### Instead, edit ~/.config/yadm/alt/.myprofile##template
+#### Then commit with `yadm add && yadm commit -m`
+####
+############################################################
+
 export TERM="xterm-256color"
 # ssh() {
 #     if ! [ -x "$(command -v mosh)" ]; then
@@ -28,6 +37,7 @@ alias tree="ls --tree"
 alias find="fd"
 alias du="dust"
 alias df="duf"
+aliasm vim="nvim"
 
 export SSH_AUTH_SOCK=~/.1password/agent.sock
 
