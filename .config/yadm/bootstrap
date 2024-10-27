@@ -19,6 +19,12 @@ brew install --cask font-fira-code-nerd-font
 brew install --cask visual-studio-code
 brew install --cask bettertouchtool
 brew install --cask kitty
+brew install --cask wezterm
+
+# neovim
+brew install neovim
+brew install luarocks
+brew install ripgrep
 
 # brew install --cask bambu-studio
 # brew install --cask orcaslicer
