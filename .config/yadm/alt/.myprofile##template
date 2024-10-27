@@ -51,14 +51,11 @@ export PATH="$HOME/.config/emacs/bin:/Applications/WezTerm.app/Contents/MacOS:$H
 eval "$(wezterm shell-completion --shell zsh)"
 
 {% if yadm.class == "Work" %}
-export PATH="Library/Application\ Support/Netskope/STAgent:/Applications/Postgres.app/Contents/Versions/14/bin/:$PATH"
-source "$HOME/.config/netskope/env.sh"
-source "$HOME/.griphook/env"
-source $HOME/.asdf/asdf.sh
+# This is where some Work customization could go
 {% endif %}
 
 {% if yadm.class == "Home" %}
-# This is a home template
+# This is where some Home customization could go
 {% endif %}
 
 eval "$(direnv hook zsh)"
@@ -73,3 +70,7 @@ eval "$(uv generate-shell-completion zsh)"
 # Node / NVM
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Class / local config should be optimally contained in the
+# .myprofile.local.c.<CLASS> [Home, Work] files
+source "$HOME/.myprofile.local"
