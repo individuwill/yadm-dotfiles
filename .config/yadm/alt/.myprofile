@@ -1,12 +1,3 @@
-###########################################################
-####
-#### Do not edit this from ~/.myprofile
-#### This file is controlled by yadm!
-#### Instead, edit ~/.config/yadm/alt/.myprofile##template
-#### Then commit with `yadm add && yadm commit -m`
-####
-############################################################
-
 export TERM="xterm-256color"
 # ssh() {
 #     if ! [ -x "$(command -v mosh)" ]; then
@@ -49,14 +40,6 @@ export PATH="$HOME/.config/emacs/bin:/Applications/WezTerm.app/Contents/MacOS:$H
 
 # wezterm autocompletions
 eval "$(wezterm shell-completion --shell zsh)"
-
-{% if yadm.class == "Work" %}
-# This is where some Work customization could go
-{% endif %}
-
-{% if yadm.class == "Home" %}
-# This is where some Home customization could go
-{% endif %}
 
 eval "$(direnv hook zsh)"
 #source <(kubectl completion zsh)
