@@ -25,6 +25,9 @@ brew install --cask wezterm
 brew install neovim
 brew install luarocks
 brew install ripgrep
+brew install astgrep
+brew install lazygit
+brew install wget
 
 # brew install --cask bambu-studio
 # brew install --cask orcaslicer
