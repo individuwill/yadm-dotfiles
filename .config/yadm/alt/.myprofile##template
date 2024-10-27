@@ -37,7 +37,7 @@ alias tree="ls --tree"
 alias find="fd"
 alias du="dust"
 alias df="duf"
-aliasm vim="nvim"
+alias vim="nvim"
 
 export SSH_AUTH_SOCK=~/.1password/agent.sock
 
