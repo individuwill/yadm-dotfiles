@@ -23,7 +23,7 @@ brew install --cask wezterm
 
 # neovim
 brew install neovim
-brew install luarocks
+brew install luaver
 brew install ripgrep
 brew install astgrep
 brew install lazygit
