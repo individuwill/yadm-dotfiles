@@ -1,3 +1,6 @@
+-- ASCII art generator:
+-- https://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=VIM
+
 return {
   "nvimdev/dashboard-nvim",
   opts = function(_, opts)
