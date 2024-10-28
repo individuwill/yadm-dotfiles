@@ -15,6 +15,13 @@ brew install mpv
 brew install dust
 brew install duf
 brew install direnv
+brew install k9s
+brew install kubectl
+brew install kubectx
+brew install coreutils
+brew install jq
+brew install pandoc
+brew install shellcheck
 brew install --cask font-fira-code-nerd-font
 brew install --cask visual-studio-code
 brew install --cask bettertouchtool
