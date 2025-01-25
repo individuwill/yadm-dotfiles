@@ -32,11 +32,14 @@ alias vim="nvim"
 
 export SSH_AUTH_SOCK=~/.1password/agent.sock
 
+export DOTNET_NEW_PREFERRED_LANG="F#"
 export DOTNET_ROOT=/usr/local/share/dotnet
 export PAGER=most
 
 export NVM_DIR="$HOME/.nvm"
 export PATH="$HOME/.config/emacs/bin:/Applications/WezTerm.app/Contents/MacOS:$HOME/.cargo/bin:$HOME/.cache/rebar3/bin:/opt/homebrew/opt/coreutils/libexec/gnubin:$HOME/.rd/bin:$HOME/google-cloud-sdk/bin:$HOME/.poetry/bin:$HOME/.local/bin:$HOME/bin:$DOTNET_ROOT:/usr/local/go/bin:$HOME/go/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+
+[[ ! -r '/Users/wsmith/.opam/opam-init/init.zsh' ]] || source '/Users/wsmith/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
 
 # wezterm autocompletions
 eval "$(wezterm shell-completion --shell zsh)"
