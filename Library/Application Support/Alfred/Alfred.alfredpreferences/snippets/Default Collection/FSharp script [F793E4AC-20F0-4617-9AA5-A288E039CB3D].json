@@ -1,0 +1,8 @@
+{
+  "alfredsnippet" : {
+    "snippet" : "#!\/usr\/bin\/env -S dotnet fsi\n\n\/\/ [<EntryPoint>]\n\/\/ let main argv =\n\/\/     printfn \"Ready\"\n\/\/     0\n\nprintfn \"Script Ready\"",
+    "uid" : "F793E4AC-20F0-4617-9AA5-A288E039CB3D",
+    "name" : "FSharp script",
+    "keyword" : ""
+  }
+}
