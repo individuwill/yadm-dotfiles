@@ -1,8 +1,0 @@
-{
-  "alfredsnippet" : {
-    "snippet" : "#!\/usr\/bin\/env python\n\ndef main():\n    pass\n\nif __name__ == \"__main__\":\n    main()\n",
-    "uid" : "04C1570B-F1DC-4142-8BA9-2F3A9DBCBE32",
-    "name" : "Python script",
-    "keyword" : ""
-  }
-}
