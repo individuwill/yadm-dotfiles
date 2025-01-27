@@ -4,7 +4,7 @@
 alias st2="PYTHONWARNINGS='ignore:Unverified HTTPS request' /Users/will.smith/.pyenv/versions/st2/bin/st2"
 alias gam-rxrx="/Users/will.smith/bin/gam7/gam select recursion"
 alias gam-exs="/Users/will.smith/bin/gam7/gam select exscientia"
-alias gam="/Users/will.smith/bin/gam7/gam"
+#alias gam="/Users/will.smith/bin/gam7/gam"
 
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
