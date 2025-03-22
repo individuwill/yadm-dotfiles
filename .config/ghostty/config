@@ -1,0 +1,12 @@
+# # from kitty
+# font_family FiraCode Nerd Font
+# font_size 14.0
+# tab_bar_style slant
+# enable_audio_bell yes
+# visual_bell_duration 1
+# bell_on_tab "🔔"
+# macos_option_as_alt left
+
+
+font-size = 14.0
+# font-family = "FiraCode Nerd Font"
