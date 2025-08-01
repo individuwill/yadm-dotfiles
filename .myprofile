@@ -41,9 +41,6 @@ export PATH="$HOME/.config/emacs/bin:/Applications/WezTerm.app/Contents/MacOS:$H
 
 [[ ! -r '/Users/wsmith/.opam/opam-init/init.zsh' ]] || source '/Users/wsmith/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
 
-# wezterm autocompletions
-eval "$(wezterm shell-completion --shell zsh)"
-
 eval "$(direnv hook zsh)"
 #source <(kubectl completion zsh)
 
