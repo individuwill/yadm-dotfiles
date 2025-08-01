@@ -1,19 +1,57 @@
 -- ASCII art generator:
 -- https://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=VIM
 
+-- return {
+--   "nvimdev/dashboard-nvim",
+--   lazy = false,
+--   opts = function()
+--     local logo = [[
+-- ██╗   ██╗██╗███╗   ███╗
+-- ██║   ██║██║████╗ ████║
+-- ██║   ██║██║██╔████╔██║
+-- ╚██╗ ██╔╝██║██║╚██╔╝██║
+--  ╚████╔╝ ██║██║ ╚═╝ ██║
+--   ╚═══╝  ╚═╝╚═╝     ╚═╝
+--     ]]
+--
+--     logo = string.rep("\n", 8) .. logo .. "\n\n"
+--     local opts = {
+--       header = vim.split(logo, "\n", { trimempty = false }),
+--     }
+--     return opts
+--   end,
+-- }
+
 return {
-  "nvimdev/dashboard-nvim",
-  opts = function(_, opts)
-    local logo = [[
+  "snacks.nvim",
+  opts = {
+    dashboard = {
+      preset = {
+        pick = function(cmd, opts)
+          return LazyVim.pick(cmd, opts)()
+        end,
+        header = [[
 ██╗   ██╗██╗███╗   ███╗
 ██║   ██║██║████╗ ████║
 ██║   ██║██║██╔████╔██║
 ╚██╗ ██╔╝██║██║╚██╔╝██║
  ╚████╔╝ ██║██║ ╚═╝ ██║
   ╚═══╝  ╚═╝╚═╝     ╚═╝
-    ]]
-
-    logo = string.rep("\n", 8) .. logo .. "\n\n"
-    opts.config.header = vim.split(logo, "\n", { trimempty = false })
-  end,
+ ]],
+        -- stylua: ignore
+        ---@type snacks.dashboard.Item[]
+        keys = {
+          { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+          { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+          { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+          { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+          { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+          { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+          { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
+          { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
+          { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+        },
+      },
+    },
+  },
 }
