@@ -10,8 +10,8 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 export PATH="Library/Application\ Support/Netskope/STAgent:/Applications/Postgres.app/Contents/Versions/14/bin/:$PATH"
 source "$HOME/.config/netskope/env.sh"
-source "$HOME/.griphook/env"
 
+# source "$HOME/.griphook/env"
 # export SSH_AUTH_SOCK=~/.ssh/agent.sock
 # eval `ssh-agent -a $HOME/.ssh/agent.sock 2> /dev/null`
 
