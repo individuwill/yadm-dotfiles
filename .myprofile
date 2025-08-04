@@ -59,6 +59,8 @@ if which luaver > /dev/null; then . `which luaver`; fi
 
 if [[ "$TERM_PROGRAM" == "vscode" ]]; then
     # some stuff
+elif [[ "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
+    # some stuff
 else
   export ZELLIJ_AUTO_ATTACH="true"
   eval "$(zellij setup --generate-auto-start zsh)"
