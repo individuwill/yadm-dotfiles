@@ -46,6 +46,7 @@ eval "$(direnv hook zsh)"
 
 # UV Python
 eval "$(uv generate-shell-completion zsh)"
+eval "$(uvx --generate-shell-completion zsh)"
 
 # Rust / Cargo
 . "$HOME/.cargo/env"
