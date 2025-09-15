@@ -60,6 +60,8 @@ if which luaver > /dev/null; then . `which luaver`; fi
 
 if [[ "$TERM_PROGRAM" == "vscode" ]]; then
     # some stuff
+elif [[ "$TERM_PROGRAM" == "zed" ]]; then
+    # some stuff
 elif [[ "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
     # some stuff
 else
