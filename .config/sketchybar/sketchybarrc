@@ -5,6 +5,13 @@
 
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 
+# Can print out the symbols with
+# `printf '%s %s %s\n' $'\uf2d0' $'\uf009' $'\uf013'`
+ICON_WINDOW=''   # window-maximize \uf2d0
+ICON_LAYOUT=''  # th-large \uf009
+ICON_MODE=''     # cog \uf013
+
+
 ##### Bar Appearance #####
 # Configuring the general appearance of the bar.
 # These are only some of the options available. For all options see:
@@ -22,7 +29,8 @@ sketchybar --bar position=bottom \
                  border_width=1 \
                  border_color=0x22ffffff \
                  padding_left=8 \
-                 padding_right=8
+                 padding_right=8 \
+                 topmost=window
 
 ##### Changing Defaults #####
 # We now change some default values, which are applied to all further items.
@@ -74,20 +82,21 @@ sketchybar --add item clock right \
            --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
            --subscribe battery system_woke power_source_change
 
-sketchybar --add event aerospace_workspace_change
+# turn off individual backgrounds
+sketchybar --set clock  background.drawing=off \
+           --set volume background.drawing=off \
+           --set battery background.drawing=off
 
-# for sid in $(aerospace list-workspaces --all); do
-#     sketchybar --add item space.$sid left \
-#         --subscribe space.$sid aerospace_workspace_change \
-#         --set space.$sid \
-#         background.color=0x44ffffff \
-#         background.corner_radius=5 \
-#         background.height=20 \
-#         background.drawing=off \
-#         label="$sid" \
-#         click_script="aerospace workspace $sid" \
-#         script="$CONFIG_DIR/plugins/aerospace.sh $sid"
-# done
+# add one shared background behind them
+sketchybar --add bracket status_bracket volume battery clock \
+  --set status_bracket \
+    background.color=0x22ffffff \
+    background.corner_radius=10 \
+    background.height=26 \
+    background.border_width=1 \
+    background.border_color=0x22ffffff
+
+sketchybar --add event aerospace_workspace_change
 
 for sid in $(aerospace list-workspaces --all); do
     sketchybar --add item space.$sid left \
@@ -96,7 +105,7 @@ for sid in $(aerospace list-workspaces --all); do
         background.drawing=on \
         background.color=0x22ffffff \
         background.corner_radius=6 \
-        background.height=24 \
+        background.height=26 \
         label.padding_left=8 \
         label.padding_right=8 \
         label="$sid" \
@@ -105,11 +114,11 @@ for sid in $(aerospace list-workspaces --all); do
 done
 
 sketchybar --add item as_window center \
-  --set as_window label="…" icon=􀌮 script="$PLUGIN_DIR/aerospace_window.sh" \
-                 scroll_texts=on label.max_chars=50
+  --set as_window label=".." icon="$ICON_WINDOW" script="$PLUGIN_DIR/aerospace_window.sh" \
+                 scroll_texts=on label.max_chars=50 scroll_duration=120
 
 sketchybar --add item as_layout left \
-  --set as_layout icon=􀏜 label="…" script="$PLUGIN_DIR/aerospace_layout.sh"
+  --set as_layout icon="$ICON_LAYOUT" label="..." script="$PLUGIN_DIR/aerospace_layout.sh"
 
 sketchybar --add event aerospace_focus_change
 sketchybar --subscribe as_window aerospace_focus_change
@@ -117,9 +126,14 @@ sketchybar --subscribe as_layout aerospace_focus_change
 
 sketchybar --add event aerospace_mode
 sketchybar --add item as_mode left \
-  --set as_mode icon=􀥏 label="main" \
+  --set as_mode icon="$ICON_MODE" label="main" \
   --subscribe as_mode aerospace_mode \
   --set as_mode script="$PLUGIN_DIR/aerospace_mode.sh"
+
+# put layout + mode right after your last workspace item (e.g. space.9 or space.Z depending what you keep)
+sketchybar --move as_layout after space.9
+sketchybar --move as_mode after as_layout
+
 
 ##### Force all scripts to run the first time (never do this in a script) #####
 sketchybar --update

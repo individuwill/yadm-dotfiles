@@ -1,10 +1,21 @@
 #!/usr/bin/env bash
-
-# make sure it's executable with:
 # chmod +x ~/.config/sketchybar/plugins/aerospace.sh
 
-if [ "$1" = "$FOCUSED_WORKSPACE" ]; then
-    sketchybar --set $NAME background.drawing=on
+sid="$1"
+focused="$FOCUSED_WORKSPACE"
+
+# If the trigger didn't pass FOCUSED_WORKSPACE for some reason, do nothing.
+[ -z "$focused" ] && exit 0
+
+if [ "$sid" = "$focused" ]; then
+  sketchybar --set "$NAME" \
+    background.drawing=on \
+    background.color=0x44ffffff \
+    label.highlight=on
 else
-    sketchybar --set $NAME background.drawing=off
+  sketchybar --set "$NAME" \
+    background.drawing=on \
+    background.color=0x22ffffff \
+    label.highlight=off
 fi
+
