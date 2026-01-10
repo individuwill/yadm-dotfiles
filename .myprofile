@@ -16,7 +16,7 @@ alias oe="op run --env-file=.env -- "
 alias oel="op run --env-file=.env.local -- "
 alias yt="youtube-dl --external-downloader aria2c --external-downloader-args '-c -j 3 -x 3 -s 3 -k 1M'"
 alias ls="lsd"
-alias vim="nvim"
+# alias vim="nvim"
 
 # ---- Deterministic base PATH (zsh-native, deduped) ----
 export NVM_DIR="$HOME/.nvm"
