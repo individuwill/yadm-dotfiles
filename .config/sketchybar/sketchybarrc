@@ -113,7 +113,7 @@ for sid in $(aerospace list-workspaces --all); do
         script="$CONFIG_DIR/plugins/aerospace.sh $sid"
 done
 
-sketchybar --add item as_window center \
+sketchybar --add item as_window left \
   --set as_window label=".." icon="$ICON_WINDOW" script="$PLUGIN_DIR/aerospace_window.sh" \
                  scroll_texts=on label.max_chars=50 scroll_duration=120
 
@@ -131,9 +131,21 @@ sketchybar --add item as_mode left \
   --set as_mode script="$PLUGIN_DIR/aerospace_mode.sh"
 
 # put layout + mode right after your last workspace item (e.g. space.9 or space.Z depending what you keep)
-sketchybar --move as_layout after space.9
+sketchybar --move as_layout after space.T
 sketchybar --move as_mode after as_layout
 
+# turn off individual backgrounds
+sketchybar --set as_layout  background.drawing=off \
+           --set as_mode background.drawing=off
+
+# add one shared background behind them
+sketchybar --add bracket layout_mode_bracket as_layout as_mode \
+  --set layout_mode_bracket \
+    background.color=0x22ffffff \
+    background.corner_radius=10 \
+    background.height=26 \
+    background.border_width=1 \
+    background.border_color=0x22ffffff
 
 ##### Force all scripts to run the first time (never do this in a script) #####
 sketchybar --update
