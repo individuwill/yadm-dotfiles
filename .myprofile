@@ -59,6 +59,7 @@ eval "$(uvx --generate-shell-completion zsh)"
 # luaver
 if which luaver > /dev/null; then . `which luaver`; fi
 
+
 if [[ "$TERM_PROGRAM" == "vscode" ]]; then
     # some stuff
 elif [[ "$TERM_PROGRAM" == "zed" ]]; then
@@ -66,8 +67,9 @@ elif [[ "$TERM_PROGRAM" == "zed" ]]; then
 elif [[ "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
     # some stuff
 else
-  export ZELLIJ_AUTO_ATTACH="true"
-  eval "$(zellij setup --generate-auto-start zsh)"
+  if [[ -z "$ZELLIJ" && -o interactive && -z "$NO_ZELLIJ" ]]; then
+    exec zellij -l welcome
+  fi
 fi
 
 
