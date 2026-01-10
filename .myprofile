@@ -1,78 +1,131 @@
-export TERM="xterm-256color"
-# ssh() {
-#     if ! [ -x "$(command -v mosh)" ]; then
-#         echo "mosh client not found."
-#         command ssh "$@"
-#     else
-#         echo "Found mosh client."
-#         command mosh "$@"
-#         [[ $? -ne 0 ]] && (echo "mosh server not found" ; command ssh "$@")
-#     fi
-# }
-psql() {
-    if ! [ -x "$(command -v pgcli)" ]; then
-        echo "pgcli client not found."
-        command psql "$@"
-    else
-        echo "Found pgcli client."
-        command pgcli "$@"
-    fi
-}
+# ~/.myprofile
+
+bindkey -e
+
+# ---- Basics ----
 export EDITOR="vim"
+export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
+
+export DOTNET_NEW_PREFERRED_LANG="F#"
+export DOTNET_ROOT="/usr/local/share/dotnet"
+export PAGER="most"
+
+# Aliases
 alias sssh="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 alias oe="op run --env-file=.env -- "
 alias oel="op run --env-file=.env.local -- "
 alias yt="youtube-dl --external-downloader aria2c --external-downloader-args '-c -j 3 -x 3 -s 3 -k 1M'"
 alias ls="lsd"
-# alias cat="bat"
-# alias tree="ls --tree"
-# alias find="fd"
-# alias du="dust"
-# alias df="duf"
 alias vim="nvim"
 
-export SSH_AUTH_SOCK=~/.1password/agent.sock
-
-export DOTNET_NEW_PREFERRED_LANG="F#"
-export DOTNET_ROOT=/usr/local/share/dotnet
-export PAGER=most
-
+# ---- Deterministic base PATH (zsh-native, deduped) ----
 export NVM_DIR="$HOME/.nvm"
-export PATH="$HOME/.config/emacs/bin:/Applications/WezTerm.app/Contents/MacOS:$HOME/.cargo/bin:$HOME/.cache/rebar3/bin:/opt/homebrew/opt/coreutils/libexec/gnubin:$HOME/.rd/bin:$HOME/google-cloud-sdk/bin:$HOME/.poetry/bin:$HOME/.local/bin:$HOME/bin:$DOTNET_ROOT:/usr/local/go/bin:$HOME/go/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.lmstudio/bin:$HOME/.antigravity/antigravity/bin:$PATH"
 
-[[ ! -r '/Users/wsmith/.opam/opam-init/init.zsh' ]] || source '/Users/wsmith/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+typeset -U path PATH
+path=(
+  "$HOME/.config/emacs/bin"
+  "/Applications/WezTerm.app/Contents/MacOS"
+  "$HOME/.cargo/bin"
+  "$HOME/.cache/rebar3/bin"
+  "/opt/homebrew/opt/coreutils/libexec/gnubin"
+  "$HOME/.rd/bin"
+  "$HOME/google-cloud-sdk/bin"
+  "$HOME/.poetry/bin"
+  "$HOME/.local/bin"
+  "$HOME/bin"
+  "$DOTNET_ROOT"
+  "/usr/local/go/bin"
+  "$HOME/go/bin"
+  "/opt/homebrew/bin"
+  "/opt/homebrew/sbin"
+  "$HOME/.lmstudio/bin"
+  "$HOME/.antigravity/antigravity/bin"
+  "$HOME/Application Support/JetBrains/Toolbox/scripts"
+  $path
+)
+export PATH
 
+# ---- Tool inits ----
+
+# opam
+[[ ! -r "$HOME/.opam/opam-init/init.zsh" ]] || source "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null
+
+# direnv
 eval "$(direnv hook zsh)"
-#source <(kubectl completion zsh)
 
-# UV Python
-eval "$(uv generate-shell-completion zsh)"
-eval "$(uvx --generate-shell-completion zsh)"
+# Completions that require zsh completion system (compinit) should be interactive-only
+if [[ -o interactive ]]; then
+  source <(kubectl completion zsh)
 
-# Rust / Cargo
+  # UV Python
+  eval "$(uv generate-shell-completion zsh)"
+  eval "$(uvx --generate-shell-completion zsh)"
+fi
+
+# Cargo (may tweak PATH)
 . "$HOME/.cargo/env"
 
-# Node / NVM
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# nvm (may tweak PATH)
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+  . "$NVM_DIR/nvm.sh"
 
-# luaver
-if which luaver > /dev/null; then . `which luaver`; fi
-
-
-if [[ "$TERM_PROGRAM" == "vscode" ]]; then
-    # some stuff
-elif [[ "$TERM_PROGRAM" == "zed" ]]; then
-    # some stuff
-elif [[ "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
-    # some stuff
-else
-  if [[ -z "$ZELLIJ" && -o interactive && -z "$NO_ZELLIJ" ]]; then
-    exec zellij -l welcome
+  # Make node selection stable in interactive shells (so PATH + starship modules match)
+  if [[ -o interactive ]]; then
+    nvm use --silent default >/dev/null 2>&1 || true
   fi
 fi
 
+# luaver (may tweak PATH)
+if command -v luaver >/dev/null 2>&1; then
+  . "$(command -v luaver)"
+fi
 
-# Class / local config should be optimally contained in the
-# .myprofile.local.c.<CLASS> [Home, Work] files
-source "$HOME/.myprofile.local"
+# orbstack (may tweak PATH)
+source "$HOME/.orbstack/shell/init.zsh" 2>/dev/null || :
+
+# Local overrides (may tweak PATH, env, etc.)
+[[ -r "$HOME/.myprofile.local" ]] && source "$HOME/.myprofile.local"
+
+# ---- FINAL PATH CANONICALIZATION (force identical ordering) ----
+typeset -U path PATH
+
+node_bin=""
+if command -v node >/dev/null 2>&1; then
+  node_bin="${${(A)=:-$(command -v node)}%/*}"
+fi
+
+# Remove pinned entries anywhere they already exist
+path=(${path:#/opt/homebrew/bin})
+path=(${path:#/opt/homebrew/sbin})
+path=(${path:#$HOME/.luarocks/bin})
+if [[ -n "$node_bin" ]]; then
+  path=(${path:#$node_bin})
+fi
+
+# Prepend pinned entries in the exact order desired
+front=(
+  "/opt/homebrew/bin"
+  "/opt/homebrew/sbin"
+  "$HOME/.luarocks/bin"
+)
+if [[ -n "$node_bin" ]]; then
+  front+=("$node_bin")
+fi
+
+path=($front $path)
+export PATH
+
+# ---- Optional: auto-start zellij only when not already inside it ----
+if [[ "$TERM_PROGRAM" == "vscode" ]]; then
+  :
+elif [[ "$TERM_PROGRAM" == "zed" ]]; then
+  :
+elif [[ "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
+  :
+else
+  if [[ -z "$ZELLIJ" && -o interactive && -z "$NO_ZELLIJ" ]]; then
+    # exec zellij -l welcome
+    :
+  fi
+fi
+
