@@ -8,5 +8,7 @@
 # macos_option_as_alt left
 
 
-font-size = 14.0
+font-size = 15.0
 # font-family = "FiraCode Nerd Font"
+theme = Dracula+
+keybind = shift+enter=text:\x1b\r
