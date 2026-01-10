@@ -124,6 +124,10 @@ sketchybar --add event aerospace_focus_change
 sketchybar --subscribe as_window aerospace_focus_change
 sketchybar --subscribe as_layout aerospace_focus_change
 
+sketchybar --add event aerospace_layout_change
+sketchybar --subscribe as_layout aerospace_layout_change
+sketchybar --subscribe as_window aerospace_layout_change
+
 sketchybar --add event aerospace_mode
 sketchybar --add item as_mode left \
   --set as_mode icon="$ICON_MODE" label="main" \
