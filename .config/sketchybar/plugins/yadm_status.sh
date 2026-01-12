@@ -19,6 +19,14 @@ COLOR_BLUE="0xff8aadf4"
 # Fallback for NAME if running manually
 NAME="${NAME:-yadm_status}"
 
+# Add this at the very top of yadm_status.sh
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+# If using SSH, this helps the script find your keys via the macOS agent
+if [ -z "$SSH_AUTH_SOCK" ]; then
+  export SSH_AUTH_SOCK=$(launchctl getenv SSH_AUTH_SOCK)
+fi
+
 # 1. Determine State
 if ! yadm diff --quiet; then
   ICON=$ICON_DIRTY; COLOR=$COLOR_YELLOW; DESC="Local changes: Unstaged"
