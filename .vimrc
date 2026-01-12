@@ -127,6 +127,9 @@ Plug 'stephpy/vim-yaml'
 " Shell scripts
 Plug 'itspriddle/vim-shellcheck'
 
+" Remember where I left off in a vim edit
+Plug 'farmergreg/vim-lastplace'
+
 call plug#end()
 
 " =========================
