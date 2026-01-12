@@ -16,6 +16,8 @@ COLOR_YELLOW="0xffeed49f"
 COLOR_RED="0xffed8796"
 COLOR_BLUE="0xff8aadf4"
 
+# Fallback for NAME if running manually
+NAME="${NAME:-yadm_status}"
 
 # 1. Determine State
 if ! yadm diff --quiet; then
