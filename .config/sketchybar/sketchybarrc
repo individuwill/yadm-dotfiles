@@ -77,8 +77,9 @@ sketchybar --add item clock right \
            --set clock update_freq=10 icon=  script="$PLUGIN_DIR/clock.sh" \
              click_script="sketchybar --set clock popup.drawing=toggle" \
              popup.background.border_width=2 \
-             popup.background.corner_radius=3 \
+             popup.background.corner_radius=5 \
              popup.background.border_color=0xff9dd274 \
+             popup.background.color=0x77000000 \
            --add item volume right \
            --set volume script="$PLUGIN_DIR/volume.sh" \
            --subscribe volume volume_change \
@@ -86,17 +87,16 @@ sketchybar --add item clock right \
            --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
            --subscribe battery system_woke power_source_change
 
-sketchybar --add item clock_utc popup.clock \
-           --set clock_utc icon.drawing=off script="$PLUGIN_DIR/clock.sh UTC" \
-             update_freq=10 \
+sketchybar \
            --add item clock_slc popup.clock \
            --set clock_slc icon.drawing=off script="$PLUGIN_DIR/clock.sh America/Denver" \
              update_freq=10 \
            --add item clock_lon popup.clock \
            --set clock_lon icon.drawing=off script="$PLUGIN_DIR/clock.sh Europe/London" \
+             update_freq=10 \
+           --add item clock_utc popup.clock \
+           --set clock_utc icon.drawing=off script="$PLUGIN_DIR/clock.sh UTC" \
              update_freq=10
-
-# sketchybar --set clock popup.utc=utc_test
 
 # turn off individual backgrounds
 sketchybar --set clock  background.drawing=off \
