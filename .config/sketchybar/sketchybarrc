@@ -112,6 +112,39 @@ sketchybar --add bracket status_bracket volume battery clock \
     background.border_width=1 \
     background.border_color=0x22ffffff
 
+sketchybar --add item yadm_status right \
+           --set yadm_status update_obj=60 \
+                      script="$CONFIG_DIR/plugins/yadm_status.sh" \
+                      background.padding_left=10 \
+                      label.drawing=off \
+           --subscribe yadm_status mouse.clicked mouse.entered mouse.exited
+
+# The Popup Item (The "Tooltip")
+sketchybar --add item yadm_status.details popup.yadm_status \
+           --set yadm_status.details label.padding_left=10 \
+                              label.padding_right=10 \
+                              background.corner_radius=5 \
+                              background.height=25
+
+# Detailed Tooltip Styling
+sketchybar --set yadm_status.details \
+           label.padding_left=12 \
+           label.padding_right=12 \
+           label.color=0xffffffff \
+           background.color=0xee24273a \
+           background.corner_radius=8 \
+           background.height=26 \
+           background.border_color=0xff494d64 \
+           background.border_width=1 \
+           background.shadow.drawing=on
+
+# General Popup Container Styling
+sketchybar --set yadm_status \
+           popup.background.border_width=0 \
+           popup.background.corner_radius=9 \
+           popup.background.shadow.drawing=on \
+           popup.blur_radius=20
+
 sketchybar --add event aerospace_workspace_change
 
 for sid in $(aerospace list-workspaces --all); do
