@@ -1,26 +1,72 @@
 #!/bin/sh
 
-# --- CONFIGURATION ---
-CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-CHROME_STATE_FILE="$HOME/Library/Application Support/Google/Chrome/Local State"
+CONFIG="$HOME/.config/aerospace/config.env"
+[ -r "$CONFIG" ] && . "$CONFIG"
 
-# --- LOGIC ---
-if [ -f "$CHROME_STATE_FILE" ]; then
-	# Extract the last used profile name
-	LAST_PROFILE=$(python3 -c "import json; print(json.load(open('$CHROME_STATE_FILE'))['profile']['last_used'])" 2>/dev/null)
-fi
+# ---- config defaults (can be overridden in config.env) ----
+PREFERRED_BROWSER="${PREFERRED_BROWSER:-Chrome}"
 
-# Fallback to Default if detection fails
-LAST_PROFILE="${LAST_PROFILE:-Default}"
+CHROME_BIN="${CHROME_BIN:-/Applications/Google Chrome.app/Contents/MacOS/Google Chrome}"
+CHROME_STATE_FILE="${CHROME_STATE_FILE:-$HOME/Library/Application Support/Google/Chrome/Local State}"
 
-# --- EXECUTION ---
-if [ -f "$CHROME_PATH" ]; then
-	# Calling the binary directly bypasses macOS 'open' quirks
-	# We use '& disown' so the script finishes but Chrome keeps running
-	"$CHROME_PATH" --profile-directory="$LAST_PROFILE" --new-window >/dev/null 2>&1 &
-	disown
-elif open -Ra "Brave Browser" >/dev/null 2>&1; then
-	open -a "Brave Browser" --args --new-window
+ZEN_APP_NAME="${ZEN_APP_NAME:-Zen}" # change if it shows as "Zen Browser" etc.
+BRAVE_APP_NAME="${BRAVE_APP_NAME:-Brave Browser}"
+SAFARI_APP_NAME="${SAFARI_APP_NAME:-Safari}"
+
+# ---- helpers ----
+has_app() {
+	# macOS: checks if an app is available by name
+	open -Ra "$1" >/dev/null 2>&1
+}
+
+lc() { printf '%s' "$1" | tr '[:upper:]' '[:lower:]'; }
+
+# ---- chrome profile detection ----
+chrome_last_profile() {
+	[ -f "$CHROME_STATE_FILE" ] || {
+		printf '%s\n' "Default"
+		return
+	}
+
+	python3 - "$CHROME_STATE_FILE" 2>/dev/null <<'PY'
+import json, sys
+path = sys.argv[1]
+try:
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    print(data.get("profile", {}).get("last_used", "Default"))
+except Exception:
+    print("Default")
+PY
+}
+
+# ---- main ----
+pref="$(lc "$PREFERRED_BROWSER")"
+
+case "$pref" in
+chrome | google\ chrome)
+	if [ -x "$CHROME_BIN" ]; then
+		LAST_PROFILE="$(chrome_last_profile)"
+		# nohup makes it survive if this script is run from a terminal/session that exits
+		nohup "$CHROME_BIN" --profile-directory="$LAST_PROFILE" --new-window \
+			>/dev/null 2>&1 &
+		exit 0
+	fi
+	;;
+
+zen)
+	if has_app "$ZEN_APP_NAME"; then
+		# If Zen supports "--new-window" args, this will pass them through.
+		# If not, just remove the --args line and it will still open Zen.
+		open -a "$ZEN_APP_NAME" --args --new-window >/dev/null 2>&1
+		exit 0
+	fi
+	;;
+esac
+
+# ---- fallbacks ----
+if has_app "$BRAVE_APP_NAME"; then
+	open -a "$BRAVE_APP_NAME" --args --new-window >/dev/null 2>&1
 else
-	open -a "Safari"
+	open -a "$SAFARI_APP_NAME" >/dev/null 2>&1
 fi
