@@ -58,13 +58,13 @@ STATUS="$("$YADM" status -sb 2>/dev/null)"
 
 
 # Some debug logging
-{
-	echo "---- $(date) ----"
-	echo "whoami=$(id -un) HOME=$HOME PWD=$(pwd) SENDER=${SENDER:-} NAME=${NAME:-}"
-	echo "DIRTY=$DIRTY STAGED=$STAGED"
-	echo "status_head=$(echo "$STATUS" | head -n1)"
-	echo "porcelain=$("$YADM" status --porcelain -b 2>/dev/null | tr '\n' ';')"
-} >>/tmp/yadm_sketchybar.log
+# {
+# 	echo "---- $(date) ----"
+# 	echo "whoami=$(id -un) HOME=$HOME PWD=$(pwd) SENDER=${SENDER:-} NAME=${NAME:-}"
+# 	echo "DIRTY=$DIRTY STAGED=$STAGED"
+# 	echo "status_head=$(echo "$STATUS" | head -n1)"
+# 	echo "porcelain=$("$YADM" status --porcelain -b 2>/dev/null | tr '\n' ';')"
+# } >>/tmp/yadm_sketchybar.log
 
 if [ "$DIRTY" -ne 0 ]; then
   ICON="$ICON_DIRTY"; COLOR="$COLOR_YELLOW"; DESC="Local changes: Unstaged"
