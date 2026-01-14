@@ -115,7 +115,7 @@ sketchybar --add bracket status_bracket volume battery clock \
 sketchybar --add item yadm_status right \
            --set yadm_status update_obj=60 \
                       script="$CONFIG_DIR/plugins/yadm_status.sh" \
-                      background.padding_left=10 \
+                      background.padding_left=0 \
                       label.drawing=off \
            --subscribe yadm_status mouse.clicked mouse.entered mouse.exited
 
@@ -144,6 +144,13 @@ sketchybar --set yadm_status \
            popup.background.corner_radius=9 \
            popup.background.shadow.drawing=on \
            popup.blur_radius=20
+
+sketchybar --add item lock_screen right \
+           --set lock_screen \
+                     icon= \
+                     background.padding_left=10 \
+                     label.drawing=off \
+                     click_script="$CONFIG_DIR/plugins/lock_screen.sh"
 
 sketchybar --add event aerospace_workspace_change
 
