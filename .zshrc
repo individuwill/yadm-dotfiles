@@ -1,3 +1,4 @@
+eval "$(brew shellenv)"
 autoload -Uz compinit
 compinit
 
