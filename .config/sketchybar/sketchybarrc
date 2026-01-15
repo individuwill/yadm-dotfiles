@@ -113,7 +113,7 @@ sketchybar --add bracket status_bracket volume battery clock \
     background.border_color=0x22ffffff
 
 sketchybar --add item yadm_status right \
-           --set yadm_status update_obj=60 \
+           --set yadm_status update_freq=60 \
                       script="$CONFIG_DIR/plugins/yadm_status.sh" \
                       background.padding_left=0 \
                       label.drawing=off \
