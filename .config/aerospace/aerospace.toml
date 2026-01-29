@@ -255,6 +255,9 @@ alt-enter = 'exec-and-forget ~/.config/aerospace/spawn_terminal.sh'
 # (Leaves Alt + C free for your ChatGPT workspace)
 alt-w = 'exec-and-forget ~/.config/aerospace/spawn_browser.sh'
 
+[workspace-to-monitor-force-assignment]
+10 = "secondary"
+
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
