@@ -185,6 +185,12 @@ let g:ale_linters = {
 \  'rust': ['cargo'],
 \}
 
+function! TaploFixer(buffer) abort
+  return {
+  \ 'command': 'taplo fmt --stdin-filepath %s -',
+  \}
+endfunction
+
 let g:ale_fixers = {
 \  'python': ['ruff_format', 'ruff'],
 \  'rust': ['rustfmt'],
@@ -193,7 +199,7 @@ let g:ale_fixers = {
 \  'zsh': ['shfmt'],
 \  'yaml': ['prettier'],
 \  'json': ['prettier'],
-\  'toml': ['taplo'],
+\  'toml': [function('TaploFixer')],
 \}
 
 " Optional: run rust checks with clippy instead of plain cargo
