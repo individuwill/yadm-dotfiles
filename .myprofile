@@ -84,6 +84,36 @@ fi
 # orbstack (may tweak PATH)
 source "$HOME/.orbstack/shell/init.zsh" 2>/dev/null || :
 
+### Begin private shell env setup ###
+PRIVATE_DIR="$HOME/.config/shell"
+PRIVATE_ENV="$PRIVATE_DIR/private_env.sh"
+GITIGNORE="$PRIVATE_DIR/.gitignore"
+
+mkdir -p "$PRIVATE_DIR"
+
+# Create/ensure .gitignore that keeps the directory but ignores other contents
+if [[ ! -f "$GITIGNORE" ]]; then
+  cat >"$GITIGNORE" <<'EOF'
+# Keep this directory in git, but ignore its contents (secrets, local files)
+*
+!.gitignore
+EOF
+fi
+
+# Create the env file if missing; lock down perms
+if [[ ! -f "$PRIVATE_ENV" ]]; then
+  touch "$PRIVATE_ENV"
+  chmod 600 "$PRIVATE_ENV"
+fi
+
+# Source if readable
+if [[ -r "$PRIVATE_ENV" ]]; then
+  # shellcheck disable=SC1090
+  source "$PRIVATE_ENV"
+fi
+
+### End private shell env setup ###
+
 # Local overrides (may tweak PATH, env, etc.)
 [[ -r "$HOME/.myprofile.local" ]] && source "$HOME/.myprofile.local"
 
