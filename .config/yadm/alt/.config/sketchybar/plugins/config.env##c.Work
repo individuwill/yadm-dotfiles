@@ -1,0 +1,3 @@
+export KB_BATT_DEVICE="AnnePro2 P1"
+export KB_BATT_ENABLED=1
+
