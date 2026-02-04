@@ -6,7 +6,7 @@
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 
 # machine-local overrides
-[[ -f "$PLUGIN_DIR/env.sh" ]] && source "$PLUGIN_DIR/env.sh"
+[[ -f "$PLUGIN_DIR/config.env" ]] && source "$PLUGIN_DIR/config.env"
 
 # Can print out the symbols with
 # `printf '%s %s %s\n' $'\uf2d0' $'\uf009' $'\uf013'`
