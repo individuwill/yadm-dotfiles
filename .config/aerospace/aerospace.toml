@@ -103,10 +103,30 @@ preset = 'qwerty'
 [gaps]
 inner.horizontal = 5
 inner.vertical = 5
-outer.left = [{ monitor."L1" = 0 }, { monitor."ARZOPA" = 0 }, { monitor."Sidecar Display" = 0 }, 10]
-outer.bottom = [{ monitor."L1" = 0 }, { monitor."ARZOPA" = 0 }, { monitor."Sidecar Display" = 0 }, 45]
-outer.top = [{ monitor."L1" = 0 }, { monitor."ARZOPA" = 0 }, { monitor."Sidecar Display" = 0 }, 10]
-outer.right = [{ monitor."L1" = 0 }, { monitor."ARZOPA" = 0 }, { monitor."Sidecar Display" = 0 }, 10]
+outer.left = [
+  { monitor."L1" = 0 },
+  { monitor."ARZOPA" = 0 },
+  { monitor."Sidecar Display" = 0 },
+  10,
+]
+outer.bottom = [
+  { monitor."L1" = 0 },
+  { monitor."ARZOPA" = 0 },
+  { monitor."Sidecar Display" = 0 },
+  45,
+]
+outer.top = [
+  { monitor."L1" = 0 },
+  { monitor."ARZOPA" = 0 },
+  { monitor."Sidecar Display" = 0 },
+  10,
+]
+outer.right = [
+  { monitor."L1" = 0 },
+  { monitor."ARZOPA" = 0 },
+  { monitor."Sidecar Display" = 0 },
+  10,
+]
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -195,7 +215,7 @@ alt-n = 'workspace N'
 # alt-p = 'workspace P'
 # alt-q = 'workspace Q'
 # alt-r = 'workspace R'
-# alt-s = 'workspace S'
+alt-s = 'workspace S'
 alt-t = 'workspace T'
 # alt-u = 'workspace U'
 # alt-v = 'workspace V'
@@ -228,7 +248,7 @@ alt-shift-n = 'move-node-to-workspace N'
 # alt-shift-p = 'move-node-to-workspace P'
 # alt-shift-q = 'move-node-to-workspace Q'
 # alt-shift-r = 'move-node-to-workspace R'
-# alt-shift-s = 'move-node-to-workspace S'
+alt-shift-s = 'move-node-to-workspace S'
 alt-shift-t = 'move-node-to-workspace T'
 # alt-shift-u = 'move-node-to-workspace U'
 # alt-shift-v = 'move-node-to-workspace V'
@@ -256,7 +276,7 @@ alt-enter = 'exec-and-forget ~/.config/aerospace/spawn_terminal.sh'
 alt-w = 'exec-and-forget ~/.config/aerospace/spawn_browser.sh'
 
 [workspace-to-monitor-force-assignment]
-10 = "secondary"
+S = "secondary"
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
