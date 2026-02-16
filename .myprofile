@@ -120,28 +120,29 @@ fi
 # ---- FINAL PATH CANONICALIZATION (force identical ordering) ----
 typeset -U path PATH
 
-node_bin=""
-if command -v node >/dev/null 2>&1; then
-  node_bin="${${(A)=:-$(command -v node)}%/*}"
-fi
-
 # Remove pinned entries anywhere they already exist
 path=(${path:#/opt/homebrew/bin})
 path=(${path:#/opt/homebrew/sbin})
 path=(${path:#$HOME/.luarocks/bin})
-if [[ -n "$node_bin" ]]; then
-  path=(${path:#$node_bin})
+
+# Prefer nvm's currently-selected node (if available)
+nvm_node_bin=""
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+  # If nvm is loaded, this points at the selected version
+  nvm_node_bin="$(nvm which current 2>/dev/null)"
+  [[ "$nvm_node_bin" == "none" || -z "$nvm_node_bin" ]] && nvm_node_bin=""
+  nvm_node_bin="${nvm_node_bin%/*}"
 fi
 
-# Prepend pinned entries in the exact order desired
 front=(
+  "$nvm_node_bin"
+  "$HOME/.luarocks/bin"
   "/opt/homebrew/bin"
   "/opt/homebrew/sbin"
-  "$HOME/.luarocks/bin"
 )
-if [[ -n "$node_bin" ]]; then
-  front+=("$node_bin")
-fi
+
+# Drop empty entries (if nvm isn't active)
+front=(${front:#""})
 
 path=($front $path)
 export PATH
