@@ -1,5 +1,23 @@
 #!/bin/sh
 
+# Terminal launcher notes for AeroSpace:
+# - `open -n -a <App>` creates a new app instance, not a new window. That was
+#   the original cause of duplicate terminal apps.
+# - For iTerm/Terminal, asking the running app to create a window via
+#   AppleScript works better than `open -a ...` when the goal is "new window in
+#   the current AeroSpace workspace".
+# - Avoid `activate` when the app is already running. In practice, that can
+#   focus an existing window on another AeroSpace workspace before the new
+#   window is created, which pulls focus to the wrong workspace.
+# - On a cold start, the opposite is true: without `activate`, iTerm can launch
+#   in the background and not surface a window until the Dock icon is clicked.
+#   So the working pattern is:
+#     running app   -> create a new window without `activate`
+#     app not open  -> `activate` and let the app create/show its first window
+# - If another terminal app is added here later, start by copying the iTerm
+#   pattern above and only add stronger focus/window-moving logic if the app
+#   still opens on the wrong workspace.
+
 CONFIG="$HOME/.config/aerospace/config.env"
 [ -r "$CONFIG" ] && . "$CONFIG"
 
@@ -18,17 +36,29 @@ open_ghostty() {
 
 open_iterm() {
 	osascript <<EOF
-tell application "$ITERM_APP_NAME"
-	create window with default profile
-end tell
+if application "$ITERM_APP_NAME" is running then
+	tell application "$ITERM_APP_NAME"
+		create window with default profile
+	end tell
+else
+	tell application "$ITERM_APP_NAME"
+		activate
+	end tell
+end if
 EOF
 }
 
 open_terminal() {
 	osascript <<EOF
-tell application "$TERMINAL_APP_NAME"
-	do script ""
-end tell
+if application "$TERMINAL_APP_NAME" is running then
+	tell application "$TERMINAL_APP_NAME"
+		do script ""
+	end tell
+else
+	tell application "$TERMINAL_APP_NAME"
+		activate
+	end tell
+end if
 EOF
 }
 
