@@ -12,24 +12,44 @@ TERMINAL_APP_NAME="${TERMINAL_APP_NAME:-Terminal}"
 has_app() { open -Ra "$1" >/dev/null 2>&1; }
 lc() { printf '%s' "$1" | tr '[:upper:]' '[:lower:]'; }
 
+open_ghostty() {
+	open -a "$GHOSTTY_APP_NAME" --new >/dev/null 2>&1 || open -a "$GHOSTTY_APP_NAME"
+}
+
+open_iterm() {
+	osascript <<EOF
+tell application "$ITERM_APP_NAME"
+	create window with default profile
+end tell
+EOF
+}
+
+open_terminal() {
+	osascript <<EOF
+tell application "$TERMINAL_APP_NAME"
+	do script ""
+end tell
+EOF
+}
+
 pref="$(lc "$PREFERRED_TERMINAL")"
 
 case "$pref" in
 ghostty)
 	if has_app "$GHOSTTY_APP_NAME"; then
-		open -n -a "$GHOSTTY_APP_NAME"
+		open_ghostty
 		exit 0
 	fi
 	;;
 iterm | iterm2)
 	if has_app "$ITERM_APP_NAME"; then
-		open -n -a "$ITERM_APP_NAME"
+		open_iterm
 		exit 0
 	fi
 	;;
 terminal | apple\ terminal)
 	if has_app "$TERMINAL_APP_NAME"; then
-		open -n -a "$TERMINAL_APP_NAME"
+		open_terminal
 		exit 0
 	fi
 	;;
@@ -37,9 +57,9 @@ esac
 
 # Fallback chain: Ghostty -> iTerm -> Terminal
 if has_app "$GHOSTTY_APP_NAME"; then
-	open -n -a "$GHOSTTY_APP_NAME"
+	open_ghostty
 elif has_app "$ITERM_APP_NAME"; then
-	open -n -a "$ITERM_APP_NAME"
+	open_iterm
 else
-	open -n -a "$TERMINAL_APP_NAME"
+	open_terminal
 fi
