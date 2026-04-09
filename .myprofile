@@ -19,6 +19,9 @@ alias ls="lsd"
 # alias vim="nvim"
 alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 
+# Enable shell history for elixir iex
+export ERL_AFLAGS="-kernel shell_history enabled"
+
 # ---- Deterministic base PATH (zsh-native, deduped) ----
 export NVM_DIR="$HOME/.nvm"
 
