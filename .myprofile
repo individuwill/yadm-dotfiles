@@ -45,6 +45,7 @@ path=(
   "$HOME/.lmstudio/bin"
   "$HOME/.antigravity/antigravity/bin"
   "$HOME/Application Support/JetBrains/Toolbox/scripts"
+  "/Applications/Postgres.app/Contents/Versions/latest/bin"
   $path
 )
 export PATH
