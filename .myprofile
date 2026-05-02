@@ -58,6 +58,11 @@ export PATH
 # direnv
 eval "$(direnv hook zsh)"
 
+# mise (version manager — may tweak PATH and set shims)
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
+
 # Completions that require zsh completion system (compinit) should be interactive-only
 if [[ -o interactive ]]; then
   source <(kubectl completion zsh)
