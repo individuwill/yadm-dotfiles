@@ -38,18 +38,19 @@
   "languages": {
     "Elixir": {
       "language_servers": [
-        "dexter",
-        "!expert",
+        "!dexter",
+        "expert",
         "!elixir-ls",
         "!next-ls",
         "!lexical",
         "...",
       ],
+      "show_edit_predictions": false,
     },
     "EEx": {
       "language_servers": [
-        "dexter",
-        "!expert",
+        "!dexter",
+        "expert",
         "!elixir-ls",
         "!next-ls",
         "!lexical",
@@ -58,8 +59,8 @@
     },
     "HEEx": {
       "language_servers": [
-        "dexter",
-        "!expert",
+        "!dexter",
+        "expert",
         "!elixir-ls",
         "!next-ls",
         "!lexical",
