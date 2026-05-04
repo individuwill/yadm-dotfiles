@@ -79,6 +79,7 @@ persistent-workspaces = [
   "C",
   "N",
   "T",
+  "S",
 ]
 
 # A callback that runs every time binding mode changes
@@ -100,30 +101,36 @@ preset = 'qwerty'
 #                 See:
 #                 https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 
+# MB16A
+
 [gaps]
 inner.horizontal = 5
 inner.vertical = 5
 outer.left = [
   { monitor."L1" = 0 },
   { monitor."ARZOPA" = 0 },
+  { monitor."MB16A" = 0 },
   { monitor."Sidecar Display" = 0 },
   10,
 ]
 outer.bottom = [
   { monitor."L1" = 0 },
   { monitor."ARZOPA" = 0 },
+  { monitor."MB16A" = 0 },
   { monitor."Sidecar Display" = 0 },
   45,
 ]
 outer.top = [
   { monitor."L1" = 0 },
   { monitor."ARZOPA" = 0 },
+  { monitor."MB16A" = 0 },
   { monitor."Sidecar Display" = 0 },
   10,
 ]
 outer.right = [
   { monitor."L1" = 0 },
   { monitor."ARZOPA" = 0 },
+  { monitor."MB16A" = 0 },
   { monitor."Sidecar Display" = 0 },
   10,
 ]
@@ -276,7 +283,8 @@ alt-enter = 'exec-and-forget ~/.config/aerospace/spawn_terminal.sh'
 alt-w = 'exec-and-forget ~/.config/aerospace/spawn_browser.sh'
 
 [workspace-to-monitor-force-assignment]
-S = "secondary"
+C = ['MB16A', 'main']
+S = ['ARZOPA', 'main']
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -340,3 +348,11 @@ run = "move-node-to-workspace N"
 [[on-window-detected]]
 if.app-id = 'com.openai.chat'
 run = "move-node-to-workspace C"
+
+[[on-window-detected]]
+if.app-id = 'com.anthropic.claudefordesktop'
+run = 'move-node-to-workspace C'
+
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = 'move-node-to-workspace S'
