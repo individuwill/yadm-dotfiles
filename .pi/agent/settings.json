@@ -1,0 +1,5 @@
+{
+  "lastChangelogVersion": "0.74.0",
+  "defaultProvider": "ai.misuse.us",
+  "defaultModel": "qwen3.6-coder-35b"
+}
