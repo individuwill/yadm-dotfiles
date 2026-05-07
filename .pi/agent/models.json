@@ -14,11 +14,11 @@
       "models": [
         {
           "id": "qwen3.6-coder-35b",
-          "name": "Qwen3.6 Coder 35B (EVO-X2)",
+          "name": "Qwen3.6 Coder 35B (ai.misuse.us)",
           "reasoning": true,
           "input": ["text"],
-          "contextWindow": 16384,
-          "maxTokens": 8192,
+          "contextWindow": 65536,
+          "maxTokens": 4096,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
           "compat": {
             "thinkingFormat": "qwen"
@@ -26,28 +26,28 @@
         },
         {
           "id": "gpt-oss-20b",
-          "name": "GPT-OSS 20B (EVO-X2, always loaded)",
+          "name": "GPT-OSS 20B (ai.misuse.us, always loaded)",
           "reasoning": true,
           "input": ["text"],
-          "contextWindow": 16384,
-          "maxTokens": 8192,
+          "contextWindow": 32768,
+          "maxTokens": 4096,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
         },
         {
           "id": "glm-4.7-flash",
-          "name": "GLM 4.7 Flash (EVO-X2)",
+          "name": "GLM 4.7 Flash (ai.misuse.us)",
           "reasoning": false,
           "input": ["text"],
-          "contextWindow": 16384,
-          "maxTokens": 8192,
+          "contextWindow": 32768,
+          "maxTokens": 4096,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
         },
         {
           "id": "qwen3.6-27b",
-          "name": "Qwen3.6 27B Dense (EVO-X2, slow)",
+          "name": "Qwen3.6 27B Dense (ai.misuse.us, slow)",
           "reasoning": true,
           "input": ["text"],
-          "contextWindow": 8192,
+          "contextWindow": 16384,
           "maxTokens": 4096,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
           "compat": {
@@ -56,11 +56,11 @@
         },
         {
           "id": "gemma-4-26b",
-          "name": "Gemma 4 26B (EVO-X2, experimental)",
+          "name": "Gemma 4 26B (ai.misuse.us, experimental)",
           "reasoning": false,
           "input": ["text"],
           "contextWindow": 16384,
-          "maxTokens": 8192,
+          "maxTokens": 4096,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
         }
       ]
