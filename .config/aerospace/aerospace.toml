@@ -10,7 +10,8 @@ config-version = 2
 after-startup-command = [
   # JankyBorders has a built-in detection of already running process,
   # so it won't be run twice on AeroSpace restart
-  'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0',
+  # 'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0',
+  'exec-and-forget borders active_color=0xfffe8019 inactive_color=0x00000000 width=8.0 style=round hidpi=on',
 
   # Run Sketchybar together with AeroSpace
   # sketchybar has a built-in detection of already running process,
@@ -104,7 +105,7 @@ preset = 'qwerty'
 # MB16A
 
 [gaps]
-inner.horizontal = 5
+inner.horizontal = 8
 inner.vertical = 5
 outer.left = [
   { monitor."L1" = 0 },
