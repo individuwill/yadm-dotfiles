@@ -3,7 +3,7 @@
     "ai.misuse.us": {
       "baseUrl": "https://ai.misuse.us/v1",
       "api": "openai-completions",
-      "apiKey": "!op read 'op://Private/Local ai.misuse.us API Key/credential'",
+      "apiKey": "!op read 'op://home-infrastructure/llm-gateway-ai/api-key'",
       "compat": {
         "supportsDeveloperRole": false,
         "supportsReasoningEffort": false,
@@ -43,11 +43,32 @@
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
         },
         {
+          "id": "qwen3-8b",
+          "name": "Qwen3 8B (ai.misuse.us, always loaded)",
+          "reasoning": true,
+          "input": ["text"],
+          "contextWindow": 65536,
+          "maxTokens": 4096,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "compat": {
+            "thinkingFormat": "qwen"
+          }
+        },
+        {
+          "id": "qwen2.5-3b",
+          "name": "Qwen2.5 3B (ai.misuse.us, always loaded, classifier)",
+          "reasoning": false,
+          "input": ["text"],
+          "contextWindow": 32768,
+          "maxTokens": 4096,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+        },
+        {
           "id": "qwen3.6-27b",
           "name": "Qwen3.6 27B Dense (ai.misuse.us, slow)",
           "reasoning": true,
           "input": ["text"],
-          "contextWindow": 16384,
+          "contextWindow": 65536,
           "maxTokens": 4096,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
           "compat": {
@@ -56,10 +77,10 @@
         },
         {
           "id": "gemma-4-26b",
-          "name": "Gemma 4 26B (ai.misuse.us, experimental)",
+          "name": "Gemma 4 26B (ai.misuse.us, demoted — Vulkan crash bug)",
           "reasoning": false,
           "input": ["text"],
-          "contextWindow": 16384,
+          "contextWindow": 32768,
           "maxTokens": 4096,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
         }
