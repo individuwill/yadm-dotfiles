@@ -315,12 +315,14 @@ If you previously cloned with the shared-key scheme:
 
 ## Mac-only dotfiles on Linux
 
-`.hammerspoon/`, `.config/sketchybar/`, `.config/aerospace/`,
-`Library/Application Support/Leader Key/` are all macOS-specific apps.
-They're tracked unconditionally because they're inert on Linux (files
-exist but nothing reads them). If they ever start causing problems on
-Linux, move each top-level directory into `.config/yadm/alt/<name>##o.Darwin/`
-and yadm will only symlink it on macOS.
+- **`Library/Application Support/Leader Key/config.json`** — gated via
+  `.config/yadm/alt/Library/.../config.json##o.Darwin`. Does NOT appear
+  on Linux.
+- **`.hammerspoon/`, `.config/sketchybar/`, `.config/aerospace/`** —
+  tracked unconditionally. Files exist on Linux but nothing reads them
+  (the apps don't exist there). If they ever start causing problems,
+  move each top-level directory into `.config/yadm/alt/<name>##o.Darwin/`
+  and yadm will only symlink it on macOS.
 
 ---
 
