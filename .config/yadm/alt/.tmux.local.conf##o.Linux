@@ -1,0 +1,5 @@
+# Linux default: prefix is C-q (mac stays on stock C-b)
+unbind C-b
+set -g prefix C-q
+bind C-q send-prefix
+
