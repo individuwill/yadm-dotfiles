@@ -39,6 +39,7 @@ brew_install jq
 brew_install pandoc
 brew_install shellcheck
 brew_install neovim
+brew_install tmux
 brew_install luaver
 brew_install ripgrep
 brew_install astgrep

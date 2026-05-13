@@ -3,6 +3,11 @@ if [[ -x /opt/homebrew/bin/brew ]]; then
 elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
+
+# Auto-attach tmux on interactive SSH sessions (silent no-op otherwise).
+# Fragment is provided unconditionally; runtime guards inside handle when to fire.
+[[ -r "$HOME/.zshrc.tmux-autoattach" ]] && source "$HOME/.zshrc.tmux-autoattach"
+
 autoload -Uz compinit
 compinit
 

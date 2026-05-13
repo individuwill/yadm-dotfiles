@@ -371,6 +371,73 @@ If you previously cloned with the shared-key scheme:
 
 ---
 
+## SSH auto-attach to tmux
+
+When you SSH into a box that has these dotfiles, you're automatically
+attached to a persistent tmux session called `main` (creating it on
+first login). Detach with `prefix d` and the session keeps running for
+the next time you reconnect.
+
+The block lives in `~/.zshrc.tmux-autoattach`, sourced near the top of
+`.zshrc`. It fires **only** when all of these hold:
+
+- shell is interactive (`$- == *i*`)
+- SSH allocated a TTY (`$SSH_TTY` set)
+- not already inside tmux (`$TMUX` unset)
+- no opt-out marker file (`~/.no-tmux-autostart`)
+- tmux is installed
+
+So:
+
+| Entry path | Auto-attaches? |
+|---|---|
+| Mac, local iTerm | no (no `$SSH_TTY`) |
+| Linux, direct `ssh user@host` | yes |
+| Linux GUI terminal under KasmVNC / X / Wayland | no (no `$SSH_TTY`) |
+| `scp` / `rsync` / `sftp` / `git push` over ssh | no (no `$SSH_TTY`, no `.zshrc` sourced) |
+| `ssh user@host <cmd>` (non-interactive) | no (no `.zshrc` sourced) |
+| `ssh -t user@host vim` | no (`.zshrc` not sourced for `ssh host cmd`) |
+| VS Code / JetBrains Remote bootstrap | no |
+| Tmux pane opening a new shell | no (`$TMUX` is set) |
+
+### Disable on a specific machine
+
+```sh
+touch ~/.no-tmux-autostart      # disable
+rm   ~/.no-tmux-autostart       # re-enable
+```
+
+### Multiple clients on one box
+
+Both SSH and KasmVNC/X-terminal clients talk to the **same tmux server**
+(one socket per UID per machine). Two scenarios worth knowing:
+
+- **Mirror.** `tmux a -t main` from a second client attaches it to the
+  same session. Both clients see/type the same panes. `.tmux.conf` sets
+  `window-size largest` so the session doesn't shrink to fit the
+  smaller client — instead the smaller client gets a viewport into a
+  view sized for the bigger one.
+- **Take over.** `tmux a -d -t main` detaches any other clients before
+  attaching. Since our auto-attach uses `exec tmux ...`, the kicked-out
+  SSH client's session ends — you'd have to re-ssh in. If that becomes
+  annoying, drop the `exec` from `~/.zshrc.tmux-autoattach` so the
+  shell survives a steal (you'll be at a plain prompt over SSH after
+  detach instead of cleanly disconnected).
+
+### Host-specific tweaks
+
+If a particular host wants different behavior (different session name,
+e.g. or a different command), use the layering pattern documented above:
+
+```
+.config/yadm/alt/.zshrc.tmux-autoattach##h.<hostname>
+```
+
+yadm scores `h.<host>` higher than no tag, so that host gets the custom
+block; everyone else keeps the default.
+
+---
+
 ## Mac-only dotfiles on Linux
 
 - **`Library/Application Support/Leader Key/config.json`** — gated via
