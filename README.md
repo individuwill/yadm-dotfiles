@@ -103,6 +103,64 @@ internally on `yadm.class`, `yadm.os`, etc. Not currently used here, but
 fair game when a file has lots of small divergences that would otherwise
 duplicate.
 
+### Layering: per-machine overrides on top of OS defaults
+
+When a config file needs per-machine customization but most machines
+should share an OS-level default, the cleanest pattern is:
+
+1. **Main config sources a sibling override file** at runtime.
+2. **The sibling file is provided by yadm alt** with multiple variants
+   at different specificity levels.
+3. **yadm picks the most specific matching variant.**
+
+yadm scores tags by specificity, so `h.<hostname>` (one machine) beats
+`o.<os>` (every machine of that OS) beats no-tag (every machine). When
+multiple variants of the same target exist, yadm symlinks only the
+highest-scoring match.
+
+**Example — tmux prefix key:**
+
+The main `.tmux.conf` does this near the top:
+
+```tmux
+# Per-machine / per-OS overrides. -q makes the load silent if absent.
+source-file -q ~/.tmux.local.conf
+```
+
+Then under yadm alt, provide variants at whatever specificity you need:
+
+```
+.config/yadm/alt/.tmux.local.conf##o.Linux                 # default for any Linux box
+.config/yadm/alt/.tmux.local.conf##h.proxmox-host          # overrides ##o.Linux on that one machine
+.config/yadm/alt/.tmux.local.conf##c.Work,o.Darwin         # only the work mac
+```
+
+On any given machine, yadm picks one. macOS without a matching variant
+falls back to no override (the `source-file -q` silently no-ops since
+`~/.tmux.local.conf` doesn't exist). To add a host-specific override on
+a new machine:
+
+```sh
+cp ~/.tmux.local.conf \
+   ~/.config/yadm/alt/.tmux.local.conf##h.$(hostname -s)
+# edit the new file, then:
+yadm alt
+yadm add ".config/yadm/alt/.tmux.local.conf##h.$(hostname -s)"
+yadm commit -m "tmux: override for $(hostname -s)"
+```
+
+**The pattern generalizes.** Any file you want layered like this:
+
+1. Have the main config `source` (or `include`, depending on the tool)
+   a sidecar file that may not exist.
+2. Track the sidecar under `.config/yadm/alt/<path>##<tags>` with as
+   many tag-specific variants as you want.
+3. yadm picks the most specific match per machine.
+
+Works for `~/.gitconfig.local` (git's `[include] path =`), `~/.ssh/config.local`
+(already used here — `ssh_config` has `Include ~/.ssh/config.local`),
+`~/.myprofile.local`, shell rc files via `source -q`, and so on.
+
 ---
 
 ## Encryption
