@@ -1,0 +1,23 @@
+# Auto-attach to a tmux 'main' session on interactive SSH login.
+#
+# Sourced from .zshrc. Fires only when ALL of the following are true:
+#   - this is an interactive shell ($- contains 'i')
+#   - SSH allocated a TTY ($SSH_TTY is set) — gates out scp/rsync/git/etc.
+#   - we are not already inside tmux ($TMUX unset) — prevents nesting
+#   - the user has not opted out (no ~/.no-tmux-autostart marker file)
+#   - tmux is actually installed
+#
+# To disable temporarily on a given machine:  touch ~/.no-tmux-autostart
+# To re-enable:                                rm ~/.no-tmux-autostart
+
+if [[ $- == *i* ]] \
+   && [[ -n "$SSH_TTY" ]] \
+   && [[ -z "$TMUX" ]] \
+   && [[ ! -f "$HOME/.no-tmux-autostart" ]] \
+   && command -v tmux >/dev/null 2>&1; then
+  if tmux has-session -t main 2>/dev/null; then
+    exec tmux attach-session -t main
+  else
+    exec tmux new-session -s main
+  fi
+fi
