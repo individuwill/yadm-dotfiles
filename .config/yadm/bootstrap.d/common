@@ -1,0 +1,27 @@
+#!/bin/sh
+# Common post-bootstrap steps run on every OS.
+
+set -e
+
+# Decrypt the yadm archive if present and user wants to.
+if [ -r "$HOME/.local/share/yadm/archive" ]; then
+  if command -v yadm >/dev/null 2>&1; then
+    yadm decrypt || echo "bootstrap (common): yadm decrypt failed (wrong passphrase?)" >&2
+  fi
+fi
+
+# Refresh alt-file symlinks (in case class/os tagging changed).
+if command -v yadm >/dev/null 2>&1; then
+  yadm alt || true
+fi
+
+# Friendly reminder if class is unset.
+if command -v yadm >/dev/null 2>&1; then
+  class="$(yadm config --get local.class 2>/dev/null || true)"
+  if [ -z "$class" ]; then
+    echo
+    echo "bootstrap (common): yadm class is not set."
+    echo "  Set one with: yadm config local.class Home   # or Work"
+    echo "  Then re-run:  yadm alt"
+  fi
+fi

@@ -1,43 +1,25 @@
 #!/bin/sh
+# yadm bootstrap — entry point. Delegates to OS-specific script, then common.
+# Re-run any time with: yadm bootstrap
 
-# install brew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+set -e
 
-# install uv
-curl -LsSf https://astral.sh/uv/install.sh | sh
+DIR="$HOME/.config/yadm/bootstrap.d"
 
-# install brew cli tools
-brew install yadm
-brew install lsd
-brew install bat
-brew install fd
-brew install mpv
-brew install dust
-brew install duf
-brew install direnv
-brew install k9s
-brew install kubectl
-brew install kubectx
-brew install coreutils
-brew install jq
-brew install pandoc
-brew install shellcheck
-brew install --cask font-fira-code-nerd-font
-brew install --cask visual-studio-code
-brew install --cask bettertouchtool
-brew install --cask kitty
-brew install --cask wezterm
+os_status=0
+case "$(uname -s)" in
+  Darwin)
+    [ -x "$DIR/darwin" ] && { "$DIR/darwin" || os_status=$?; }
+    ;;
+  Linux)
+    [ -x "$DIR/linux"  ] && { "$DIR/linux"  || os_status=$?; }
+    ;;
+  *)
+    echo "bootstrap: unsupported OS '$(uname -s)' — skipping OS-specific install" >&2
+    ;;
+esac
 
-# neovim
-brew install neovim
-brew install luaver
-brew install ripgrep
-brew install astgrep
-brew install lazygit
-brew install wget
+# Run common regardless of OS-specific status (decrypt, refresh alt, reminders).
+[ -x "$DIR/common" ] && "$DIR/common"
 
-# brew install --cask bambu-studio
-# brew install --cask orcaslicer
-
-# decrypt
-yadm decrypt
+exit "$os_status"

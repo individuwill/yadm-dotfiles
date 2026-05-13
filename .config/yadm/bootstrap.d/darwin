@@ -1,0 +1,59 @@
+#!/bin/sh
+# macOS bootstrap — install Homebrew + packages used by these dotfiles.
+# Idempotent: skips anything already installed.
+
+set -e
+
+# Homebrew
+if ! command -v brew >/dev/null 2>&1; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+# uv (astral python toolchain)
+if ! command -v uv >/dev/null 2>&1; then
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
+
+brew_install() {
+  brew list --formula "$1" >/dev/null 2>&1 || brew install "$1"
+}
+
+brew_cask_install() {
+  brew list --cask "$1" >/dev/null 2>&1 || brew install --cask "$1"
+}
+
+# CLI tools
+brew_install yadm
+brew_install lsd
+brew_install bat
+brew_install fd
+brew_install mpv
+brew_install dust
+brew_install duf
+brew_install direnv
+brew_install k9s
+brew_install kubectl
+brew_install kubectx
+brew_install coreutils
+brew_install jq
+brew_install pandoc
+brew_install shellcheck
+brew_install neovim
+brew_install luaver
+brew_install ripgrep
+brew_install astgrep
+brew_install lazygit
+brew_install wget
+brew_install starship
+brew_install zsh-autosuggestions
+brew_install zsh-syntax-highlighting
+
+# Casks
+brew_cask_install font-fira-code-nerd-font
+brew_cask_install visual-studio-code
+brew_cask_install bettertouchtool
+brew_cask_install kitty
+brew_cask_install wezterm
+
+# brew_cask_install bambu-studio
+# brew_cask_install orcaslicer

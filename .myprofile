@@ -17,7 +17,6 @@ alias oel="op run --env-file=.env.local -- "
 alias yt="youtube-dl --external-downloader aria2c --external-downloader-args '-c -j 3 -x 3 -s 3 -k 1M'"
 alias ls="lsd"
 # alias vim="nvim"
-alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 
 # Enable shell history for elixir iex
 export ERL_AFLAGS="-kernel shell_history enabled"
@@ -170,6 +169,6 @@ else
   fi
 fi
 
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# OS-specific tail (mac vs linux paths, aliases, etc.)
+[[ -r "$HOME/.myprofile.os" ]] && source "$HOME/.myprofile.os"
 

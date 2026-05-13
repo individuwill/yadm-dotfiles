@@ -1,0 +1,12 @@
+# Sourced from:
+# ~/.config/yadm/alt/.myprofile.os##o.Linux
+
+# zsh plugins on Debian/Ubuntu (apt: zsh-autosuggestions, zsh-syntax-highlighting)
+for f in \
+  /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+  /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh \
+  /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
+  /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh; do
+  [[ -r "$f" ]] && source "$f"
+done
+unset f

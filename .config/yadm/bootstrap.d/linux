@@ -1,0 +1,69 @@
+#!/bin/sh
+# Linux bootstrap — verification only.
+#
+# Intentionally does NOT auto-install anything. Distro package managers vary,
+# personal Linux setups vary even more, and these dotfiles assume tools are
+# already in place. This script reports what's missing so you can install it
+# with whatever package manager (apt, pacman, dnf, nix, mise, cargo, ...) you
+# prefer. Re-run any time with: yadm bootstrap
+
+set -e
+
+# Required: shell and core utilities the dotfiles assume.
+REQUIRED="zsh git curl"
+
+# Recommended: shows up in .myprofile / .zshrc / .tmux.conf / nvim config.
+# Missing entries are non-fatal but features will silently degrade.
+RECOMMENDED="
+  starship
+  lsd
+  bat
+  fd
+  fzf
+  ripgrep
+  jq
+  direnv
+  neovim
+  tmux
+  xclip
+  wl-copy
+  uv
+  mise
+"
+
+missing_required=""
+missing_recommended=""
+
+check() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+for cmd in $REQUIRED; do
+  check "$cmd" || missing_required="$missing_required $cmd"
+done
+
+for cmd in $RECOMMENDED; do
+  check "$cmd" || missing_recommended="$missing_recommended $cmd"
+done
+
+if [ -n "$missing_required" ]; then
+  echo "bootstrap (linux): MISSING REQUIRED tools:$missing_required" >&2
+  echo "  Install these before the dotfiles will work correctly." >&2
+fi
+
+if [ -n "$missing_recommended" ]; then
+  echo "bootstrap (linux): missing recommended tools:$missing_recommended"
+  echo "  Optional — features that depend on them will be inactive."
+fi
+
+# zsh plugins (no-op if installed via distro package manager)
+if [ ! -r /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ] && \
+   [ ! -r /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+  echo "bootstrap (linux): note — zsh-autosuggestions not found in standard apt path"
+fi
+if [ ! -r /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && \
+   [ ! -r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  echo "bootstrap (linux): note — zsh-syntax-highlighting not found in standard apt path"
+fi
+
+[ -z "$missing_required" ]  # exit non-zero if required tools missing
