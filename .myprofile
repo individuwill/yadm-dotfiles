@@ -22,7 +22,6 @@ alias ls="lsd"
 export ERL_AFLAGS="-kernel shell_history enabled"
 
 # ---- Deterministic base PATH (zsh-native, deduped) ----
-export NVM_DIR="$HOME/.nvm"
 
 typeset -U path PATH
 path=(
@@ -74,16 +73,6 @@ fi
 # Cargo (may tweak PATH)
 . "$HOME/.cargo/env"
 
-# nvm (may tweak PATH)
-if [[ -s "$NVM_DIR/nvm.sh" ]]; then
-  . "$NVM_DIR/nvm.sh"
-
-  # Make node selection stable in interactive shells (so PATH + starship modules match)
-  if [[ -o interactive ]]; then
-    nvm use --silent default >/dev/null 2>&1 || true
-  fi
-fi
-
 # luaver (may tweak PATH)
 if command -v luaver >/dev/null 2>&1; then
   . "$(command -v luaver)"
@@ -133,17 +122,8 @@ path=(${path:#/opt/homebrew/bin})
 path=(${path:#/opt/homebrew/sbin})
 path=(${path:#$HOME/.luarocks/bin})
 
-# Prefer nvm's currently-selected node (if available)
-nvm_node_bin=""
-if [[ -s "$NVM_DIR/nvm.sh" ]]; then
-  # If nvm is loaded, this points at the selected version
-  nvm_node_bin="$(nvm which current 2>/dev/null)"
-  [[ "$nvm_node_bin" == "none" || -z "$nvm_node_bin" ]] && nvm_node_bin=""
-  nvm_node_bin="${nvm_node_bin%/*}"
-fi
 
 front=(
-  "$nvm_node_bin"
   "$HOME/.luarocks/bin"
   "/opt/homebrew/bin"
   "/opt/homebrew/sbin"
