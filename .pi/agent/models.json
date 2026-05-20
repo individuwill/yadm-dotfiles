@@ -13,8 +13,20 @@
       },
       "models": [
         {
+          "id": "qwen3.6-coder-35b-mtp",
+          "name": "Qwen3.6 Coder 35B MTP (ai.misuse.us, always loaded, ~66 t/s)",
+          "reasoning": true,
+          "input": ["text"],
+          "contextWindow": 65536,
+          "maxTokens": 4096,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "compat": {
+            "thinkingFormat": "qwen"
+          }
+        },
+        {
           "id": "qwen3.6-coder-35b",
-          "name": "Qwen3.6 Coder 35B (ai.misuse.us)",
+          "name": "Qwen3.6 Coder 35B non-MTP (ai.misuse.us, rollback, ~57 t/s)",
           "reasoning": true,
           "input": ["text"],
           "contextWindow": 65536,
@@ -26,7 +38,7 @@
         },
         {
           "id": "gpt-oss-20b",
-          "name": "GPT-OSS 20B (ai.misuse.us, always loaded)",
+          "name": "GPT-OSS 20B (ai.misuse.us)",
           "reasoning": true,
           "input": ["text"],
           "contextWindow": 32768,
@@ -43,8 +55,8 @@
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
         },
         {
-          "id": "qwen3-8b",
-          "name": "Qwen3 8B (ai.misuse.us, always loaded)",
+          "id": "qwen3.5-9b-mtp",
+          "name": "Qwen3.5 9B MTP (ai.misuse.us, ~42 t/s, on-demand)",
           "reasoning": true,
           "input": ["text"],
           "contextWindow": 65536,
@@ -64,8 +76,20 @@
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
         },
         {
+          "id": "qwen3.6-27b-mtp",
+          "name": "Qwen3.6 27B Dense MTP (ai.misuse.us, ~19 t/s, on-demand)",
+          "reasoning": true,
+          "input": ["text"],
+          "contextWindow": 65536,
+          "maxTokens": 4096,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "compat": {
+            "thinkingFormat": "qwen"
+          }
+        },
+        {
           "id": "qwen3.6-27b",
-          "name": "Qwen3.6 27B Dense (ai.misuse.us, slow)",
+          "name": "Qwen3.6 27B Dense non-MTP (ai.misuse.us, rollback, ~11 t/s)",
           "reasoning": true,
           "input": ["text"],
           "contextWindow": 65536,

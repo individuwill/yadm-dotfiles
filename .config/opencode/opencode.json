@@ -1,0 +1,43 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "ai-misuse-us": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "ai.misuse.us",
+      "options": {
+        "baseURL": "https://ai.misuse.us/v1",
+        "apiKey": "{env:AI_MISUSE_US_API_KEY}"
+      },
+      "models": {
+        "qwen3.6-coder-35b-mtp": {
+          "name": "Qwen3.6 Coder 35B MTP (always loaded, ~66 t/s)"
+        },
+        "qwen3.6-coder-35b": {
+          "name": "Qwen3.6 Coder 35B non-MTP (rollback, ~57 t/s)"
+        },
+        "gpt-oss-20b": {
+          "name": "GPT-OSS 20B (~45 t/s, on-demand)"
+        },
+        "glm-4.7-flash": {
+          "name": "GLM 4.7 Flash (~38 t/s, on-demand)"
+        },
+        "qwen3.5-9b-mtp": {
+          "name": "Qwen3.5 9B MTP (~42 t/s, on-demand)"
+        },
+        "qwen2.5-3b": {
+          "name": "Qwen2.5 3B (always loaded, classifier)"
+        },
+        "qwen3.6-27b-mtp": {
+          "name": "Qwen3.6 27B Dense MTP (~19 t/s, on-demand)"
+        },
+        "qwen3.6-27b": {
+          "name": "Qwen3.6 27B Dense non-MTP (rollback, ~11 t/s)"
+        },
+        "gemma-4-26b": {
+          "name": "Gemma 4 26B (demoted — Vulkan crash bug)"
+        }
+      }
+    }
+  },
+  "model": "ai-misuse-us/qwen3.6-coder-35b-mtp"
+}
