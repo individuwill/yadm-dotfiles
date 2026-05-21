@@ -20,3 +20,6 @@ authenticate="always"
 cache-control = { api = "max-age=600", files = "max-age=365000000, immutable" }
 # Prevent fallback to default PyPI index for security (blocks potential attacks)
 default=true
+
+[tool.uv]
+exclude-newer = "7 days"
