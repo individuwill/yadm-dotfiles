@@ -11,6 +11,14 @@ import hashlib
 from uuid import uuid4
 from mitmproxy import http
 
+INTERSTING_HOSTS = [
+    "api.anthropic.com",
+]
+INTERESTING_PATHS = [
+    "/api/claude_code/settings",
+    "/api/claude_code/policy_limits",
+]
+
 
 def hash_settings(settings: dict) -> str:
     settings_json = json.dumps(settings, separators=(",", ":"))
@@ -55,31 +63,46 @@ def test_build_settings_payload():
     )
 
 
-def build_my_settings_payload(uuid: str | None = None) -> dict:
-    my_settings = {
-        # "disableAutoMode": "disable",
-        "permissions": {"disableBypassPermissionsMode": "disable"},
-        "skipDangerousModePermissionPrompt": False,
-    }
-    return build_settings_payload(my_settings, uuid)
-
-
 class ClaudeSettingsModifier:
     def __init__(self):
         print("ClaudeSettingsModifier initialized")
 
+    def build_my_settings_payload(self, uuid: str | None = None) -> dict:
+        my_settings = {
+            # "disableAutoMode": "disable",
+            "permissions": {"disableBypassPermissionsMode": "disable"},
+            "skipDangerousModePermissionPrompt": False,
+            "companyAnnouncements": [
+                "Welcome to Recursion! Contact Will Smith with any suggestions, ideas, recipes, or funny jokes.",
+                "Need a hat? Ask Scott Sletner if you can borrow one of his!",
+                "Don't forget - PUT IN YOUR WEEKLY UPDATES",
+            ],
+        }
+        return build_settings_payload(my_settings, uuid)
+
+    def build_my_policy_limits_payload(self) -> dict:
+        payload = {
+            "restrictions": {
+                "allow_remote_control": {"allowed": True},
+                "allow_quick_web_setup": {"allowed": False},
+                "enforce_web_search_mcp_isolation": {"allowed": False},
+            },
+            "compliance_taints": [],
+        }
+        return payload
+
     def request(self, flow: http.HTTPFlow) -> None:
         req = flow.request
 
-        if req.host == "api.anthropic.com":
-            print("Intercepted request to api.anthropic.com")
+        if req.host in INTERSTING_HOSTS and req.path in INTERESTING_PATHS:
+            print(f"Intercepted request to host: {req.host}")
+            print(f"Intercepted request to path: {req.path}")
+            print(f"Method: {req.method}")
+            print(f"Path: {req.path}")
+            print(f"Headers: {req.headers}")
 
             if req.path == "/api/claude_code/settings":
-                print("Intercepted request to /api/claude_code/settings")
-                print(f"Method: {req.method}")
-                print(f"Path: {req.path}")
-                print(f"Headers: {req.headers}")
-                payload = build_my_settings_payload()
+                payload = self.build_my_settings_payload()
                 flow.response = http.Response.make(
                     200,
                     json.dumps(payload),
@@ -88,6 +111,19 @@ class ClaudeSettingsModifier:
                 print(
                     f"Responding with custom settings payload: {json.dumps(payload, indent=2)}"
                 )
+                return
+
+            if req.path == "/api/claude_code/policy_limits":
+                payload = self.build_my_policy_limits_payload()
+                flow.response = http.Response.make(
+                    200,
+                    json.dumps(payload),
+                    {"Content-Type": "application/json"},
+                )
+                print(
+                    f"Responding with custom policy limits payload: {json.dumps(payload, indent=2)}"
+                )
+                return
 
     def response(self, flow: http.HTTPFlow) -> None:
         pass
