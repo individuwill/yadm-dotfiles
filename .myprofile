@@ -166,6 +166,7 @@ else
 fi
 
 export SPECIAL_CLAUDE_PROXY_PORT=8090
+export SPECIAL_CLAUDE_PROXY_OPTIONS='--tcp-timeout 1800'
 
 # OS-specific tail (mac vs linux paths, aliases, etc.)
 [[ -r "$HOME/.myprofile.os" ]] && source "$HOME/.myprofile.os"
@@ -176,8 +177,8 @@ mitmrun() {
   NO_ROXY=localhost,127.0.0.1 \
   "$@"
 }
-alias mitm-dev-web="mitmweb -p $SPECIAL_CLAUDE_PROXY_PORT --set ssl_verify_upstream_trusted_ca=$NETSKOPE_CA_BUNDLE "
-alias mitm-dev-dump="mitmdump -p $SPECIAL_CLAUDE_PROXY_PORT --set ssl_verify_upstream_trusted_ca=$NETSKOPE_CA_BUNDLE "
+alias mitm-dev-web="mitmweb -p $SPECIAL_CLAUDE_PROXY_PORT $SPECIAL_CLAUDE_PROXY_OPTIONS --set ssl_verify_upstream_trusted_ca=$NETSKOPE_CA_BUNDLE "
+alias mitm-dev-dump="mitmdump -p $SPECIAL_CLAUDE_PROXY_PORT $SPECIAL_CLAUDE_PROXY_OPTIONS --set ssl_verify_upstream_trusted_ca=$NETSKOPE_CA_BUNDLE "
 alias mitm-cc="mitm-dev-dump -s $HOME/.config/mitmproxy/claude.py --allow-hosts '^api\.anthropic\.com:443'"
 alias ccpower="mitmrun claude"
 
