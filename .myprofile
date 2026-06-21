@@ -166,7 +166,7 @@ else
 fi
 
 export SPECIAL_CLAUDE_PROXY_PORT=8090
-export SPECIAL_CLAUDE_PROXY_OPTIONS='--tcp-timeout 1800'
+export SPECIAL_CLAUDE_PROXY_OPTIONS='--set tcp_timeout=1800'
 
 # OS-specific tail (mac vs linux paths, aliases, etc.)
 [[ -r "$HOME/.myprofile.os" ]] && source "$HOME/.myprofile.os"
