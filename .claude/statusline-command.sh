@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Claude Code status line
-# Displays: user@host cwd | model | context%
+# Displays: user@host cwd | model | ctx% | tokens | session | cost
 
 input=$(cat)
 
@@ -14,6 +14,21 @@ model=$(echo "$input" | jq -r '.model.display_name // ""')
 
 used=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
 
+# --- Token count (current context input tokens) ---
+tokens_raw=$(echo "$input" | jq -r '.context_window.total_input_tokens // empty')
+tokens=""
+if [ -n "$tokens_raw" ]; then
+  if [ "$tokens_raw" -ge 1000 ]; then
+    tokens=$(awk "BEGIN{printf \"%.1fk\", $tokens_raw/1000}")
+  else
+    tokens="$tokens_raw"
+  fi
+fi
+
+# --- Session id (short form) ---
+session_id=$(echo "$input" | jq -r '.session_id // empty')
+session_short="${session_id:0:8}"
+
 # --- Session cost ---
 cost_raw=$(echo "$input" | jq -r '.cost.total_cost_usd // empty')
 session_cost=""
@@ -24,6 +39,8 @@ parts=()
 parts+=("${user}@${host} ${cwd}")
 [ -n "$model" ] && parts+=("$model")
 [ -n "$used" ] && parts+=("ctx:$(printf '%.0f' "$used")%")
+[ -n "$tokens" ] && parts+=("tok:$tokens")
+[ -n "$session_short" ] && parts+=("sid:$session_short")
 [ -n "$session_cost" ] && parts+=("$session_cost")
 
 # Join with separator
