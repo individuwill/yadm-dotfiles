@@ -1,29 +1,86 @@
 #!/bin/sh
-# macOS bootstrap — install Homebrew + packages used by these dotfiles.
-# Idempotent: skips anything already installed.
+# macOS bootstrap — install Homebrew and packages used by these dotfiles.
+# Idempotent: skips packages that are already installed.
 
-set -e
+set -eu
 
-# Homebrew
-if ! command -v brew >/dev/null 2>&1; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+###############################################################################
+# Platform check
+###############################################################################
+
+if [ "$(uname -s)" != "Darwin" ]; then
+  printf '%s\n' "Error: this bootstrap script only supports macOS." >&2
+  exit 1
 fi
 
-# uv (astral python toolchain)
-if ! command -v uv >/dev/null 2>&1; then
-  curl -LsSf https://astral.sh/uv/install.sh | sh
+###############################################################################
+# Homebrew
+###############################################################################
+
+if ! command -v brew >/dev/null 2>&1; then
+  /bin/bash -c \
+    "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+# Make Homebrew available to the current script after a fresh installation.
+#
+# Apple Silicon: /opt/homebrew
+# Intel:         /usr/local
+if [ -x /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -x /usr/local/bin/brew ]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+elif ! command -v brew >/dev/null 2>&1; then
+  printf '%s\n' "Error: Homebrew was installed but could not be located." >&2
+  exit 1
 fi
 
 brew_install() {
-  brew list --formula "$1" >/dev/null 2>&1 || brew install "$1"
+  formula=$1
+
+  if brew list --formula "$formula" >/dev/null 2>&1; then
+    printf '%s\n' "Already installed: $formula"
+  else
+    brew install "$formula"
+  fi
 }
 
 brew_cask_install() {
-  brew list --cask "$1" >/dev/null 2>&1 || brew install --cask "$1"
+  cask=$1
+
+  if brew list --cask "$cask" >/dev/null 2>&1; then
+    printf '%s\n' "Already installed: $cask"
+  else
+    brew install --cask "$cask"
+  fi
 }
 
+brew_tap() {
+  tap=$1
+
+  if brew tap | grep -Fqx "$tap"; then
+    printf '%s\n' "Already tapped: $tap"
+  else
+    brew tap "$tap"
+  fi
+}
+
+###############################################################################
+# uv — Astral Python toolchain
+###############################################################################
+
+if command -v uv >/dev/null 2>&1; then
+  printf '%s\n' "Already installed: uv"
+else
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
+
+###############################################################################
 # CLI tools
+###############################################################################
+
 brew_install yadm
+brew_install mise
 brew_install lsd
 brew_install bat
 brew_install fd
@@ -36,25 +93,82 @@ brew_install kubectl
 brew_install kubectx
 brew_install coreutils
 brew_install jq
-brew_install pandoc
+brew_install yq
 brew_install shellcheck
-brew_install neovim
 brew_install tmux
-brew_install luaver
 brew_install ripgrep
-brew_install astgrep
+brew_install ast-grep
 brew_install lazygit
 brew_install wget
 brew_install starship
 brew_install zsh-autosuggestions
 brew_install zsh-syntax-highlighting
+brew_install anomalyco/tap/opencode
+brew_install thaw
 
-# Casks
+###############################################################################
+# Applications and fonts
+###############################################################################
+
+brew_cask_install orbstack
 brew_cask_install font-fira-code-nerd-font
-brew_cask_install visual-studio-code
-brew_cask_install bettertouchtool
-brew_cask_install kitty
-brew_cask_install wezterm
+brew_cask_install karabiner-elements
 
-# brew_cask_install bambu-studio
-# brew_cask_install orcaslicer
+###############################################################################
+# AeroSpace
+###############################################################################
+
+AEROSPACE_TAP="nikitabobko/tap"
+AEROSPACE_CASK="nikitabobko/tap/aerospace"
+
+brew_tap "$AEROSPACE_TAP"
+
+# Trust only this cask rather than every package in the tap.
+brew trust --cask "$AEROSPACE_CASK"
+
+brew_cask_install "$AEROSPACE_CASK"
+
+###############################################################################
+# SketchyBar
+###############################################################################
+
+SKETCHYBAR_TAP="felixkratz/formulae"
+SKETCHYBAR_FORMULA="felixkratz/formulae/sketchybar"
+
+brew_tap "$SKETCHYBAR_TAP"
+
+# Trust only the SketchyBar formula rather than the complete third-party tap.
+# This command is safe to run repeatedly.
+brew trust --formula "$SKETCHYBAR_FORMULA"
+
+brew_install "$SKETCHYBAR_FORMULA"
+
+###############################################################################
+# SketchyBar service
+###############################################################################
+
+# Ensure the user configuration is executable when it already exists.
+if [ -f "$HOME/.config/sketchybar/sketchybarrc" ]; then
+  chmod +x "$HOME/.config/sketchybar/sketchybarrc"
+else
+  printf '%s\n' \
+    "Warning: $HOME/.config/sketchybar/sketchybarrc does not exist." >&2
+fi
+
+# Register SketchyBar to start at login. Restart it when already registered so
+# configuration or package updates take effect.
+if brew services list |
+  awk '$1 == "sketchybar" { found = 1 } END { exit !found }'
+then
+  brew services restart sketchybar
+else
+  brew services start sketchybar
+fi
+
+###############################################################################
+# Completion
+###############################################################################
+
+printf '\n%s\n' "Bootstrap complete."
+printf '%s\n' "SketchyBar config: $HOME/.config/sketchybar/sketchybarrc"
+
