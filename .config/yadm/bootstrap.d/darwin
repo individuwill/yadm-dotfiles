@@ -105,6 +105,8 @@ brew_install zsh-autosuggestions
 brew_install zsh-syntax-highlighting
 brew_install anomalyco/tap/opencode
 brew_install thaw
+brew_install most
+brew_install mosh
 
 ###############################################################################
 # Applications and fonts
