@@ -165,8 +165,12 @@ else
   fi
 fi
 
+# this is a global claude code timeout... it might slow down real failures
+# but we're seeing some ttfb responses timing out now < 60 second default
+export CLAUDE_CODE_CONNECT_TIMEOUT_MS=120000
+
 export SPECIAL_CLAUDE_PROXY_PORT=8090
-export SPECIAL_CLAUDE_PROXY_OPTIONS='--set tcp_timeout=1800'
+export SPECIAL_CLAUDE_PROXY_OPTIONS='--set ssl_verify_upstream_trusted_ca=$NETSKOPE_CA_BUNDLE --set tcp_timeout=1800 --set stream_large_bodies=1'
 
 # OS-specific tail (mac vs linux paths, aliases, etc.)
 [[ -r "$HOME/.myprofile.os" ]] && source "$HOME/.myprofile.os"
@@ -177,9 +181,10 @@ mitmrun() {
   NO_ROXY=localhost,127.0.0.1 \
   "$@"
 }
-alias mitm-dev-web="mitmweb -p $SPECIAL_CLAUDE_PROXY_PORT $SPECIAL_CLAUDE_PROXY_OPTIONS --set ssl_verify_upstream_trusted_ca=$NETSKOPE_CA_BUNDLE "
-alias mitm-dev-dump="mitmdump -p $SPECIAL_CLAUDE_PROXY_PORT $SPECIAL_CLAUDE_PROXY_OPTIONS --set ssl_verify_upstream_trusted_ca=$NETSKOPE_CA_BUNDLE "
+alias mitm-dev-web="mitmweb -p $SPECIAL_CLAUDE_PROXY_PORT $SPECIAL_CLAUDE_PROXY_OPTIONS --set store_streamed_bodies=true "
+alias mitm-dev-dump="mitmdump -p $SPECIAL_CLAUDE_PROXY_PORT $SPECIAL_CLAUDE_PROXY_OPTIONS "
 alias mitm-cc="mitm-dev-dump -s $HOME/.config/mitmproxy/claude.py --allow-hosts '^api\.anthropic\.com:443'"
+alias mitm-cc-web="mitm-dev-web -s $HOME/.config/mitmproxy/claude.py --allow-hosts '^api\.anthropic\.com:443'"
 alias ccpower="mitmrun claude"
 
 export CLAUDE_CODE_SCROLL_SPEED=3
