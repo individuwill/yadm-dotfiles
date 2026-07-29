@@ -77,6 +77,12 @@ sketchybar --add item chevron left \
 # volume is registered. More info about the event system can be found here:
 # https://felixkratz.github.io/SketchyBar/config/events
 
+sketchybar --add item lock_screen right \
+           --set lock_screen \
+                     icon= \
+                     background.padding_left=10 \
+                     label.drawing=off \
+                     click_script="$CONFIG_DIR/plugins/lock_screen.sh"
 
 sketchybar --add item clock right \
            --set clock update_freq=10 icon=  script="$PLUGIN_DIR/clock.sh" \
@@ -113,6 +119,50 @@ sketchybar \
 sketchybar --set clock  background.drawing=off \
            --set volume background.drawing=off \
            --set battery background.drawing=off
+
+# --- Media ------------------------------------------------------------------
+# Icons: printf '%s %s\n' $'\uf001' $'\uf025'   (music, headphones)
+MEDIA_CONTROL="/opt/homebrew/bin/media-control"
+
+# Brackets ignore padding, so a spacer item is the only reliable separator.
+# Must be added BEFORE `media` so it lands to the right of it.
+sketchybar --add item spacer.media right \
+  --set spacer.media \
+    background.drawing=off \
+    icon.drawing=off \
+    label.drawing=off \
+    width=10
+
+sketchybar --add event media_change_mc
+
+sketchybar --add item media right \
+  --set media \
+    icon="" \
+    icon.color=0xfffe8019 \
+    label.max_chars=30 \
+    scroll_texts=on \
+    scroll_duration=150 \
+    background.drawing=off \
+    update_freq=10 \
+    script="$PLUGIN_DIR/media.sh" \
+    click_script="$MEDIA_CONTROL toggle-play-pause; sleep 0.25; sketchybar --trigger media_change_mc" \
+  --subscribe media media_change_mc
+
+sketchybar --add bracket media_bracket media \
+  --set media_bracket \
+    background.color=0x30fe8019 \
+    background.corner_radius=10 \
+    background.height=26 \
+    background.border_width=1 \
+    background.border_color=0x66fe8019
+
+sketchybar --add bracket media_bracket media \
+  --set media_bracket \
+    background.color=0x22ffffff \
+    background.corner_radius=10 \
+    background.height=26 \
+    background.border_width=1 \
+    background.border_color=0x22ffffff
 
 # add one shared background behind them
 sketchybar --add bracket status_bracket volume battery clock \
@@ -156,12 +206,6 @@ sketchybar --add bracket status_bracket volume battery clock \
 #            popup.background.shadow.drawing=on \
 #            popup.blur_radius=20
 # 
-sketchybar --add item lock_screen right \
-           --set lock_screen \
-                     icon= \
-                     background.padding_left=10 \
-                     label.drawing=off \
-                     click_script="$CONFIG_DIR/plugins/lock_screen.sh"
 
 sketchybar --add event aerospace_workspace_change
 
