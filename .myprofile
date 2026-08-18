@@ -17,6 +17,7 @@ alias oel="op run --env-file=.env.local -- "
 alias yt="youtube-dl --external-downloader aria2c --external-downloader-args '-c -j 3 -x 3 -s 3 -k 1M'"
 alias ls="lsd"
 # alias vim="nvim"
+alias fixcam="sudo killall avconferenced"
 
 # Tmux session helper
 tt() {
@@ -181,7 +182,7 @@ export SPECIAL_CLAUDE_PROXY_OPTIONS='--set ssl_verify_upstream_trusted_ca=$NETSK
 mitmrun() {
   HTTPS_PROXY=http://127.0.0.1:$SPECIAL_CLAUDE_PROXY_PORT \
   HTTP_PROXY=http://127.0.0.1:$SPECIAL_CLAUDE_PROXY_PORT \
-  NO_ROXY=localhost,127.0.0.1 \
+  NO_ROXY=localhost,127.0.0.1,.rxrx.io,.misuse.us \
   "$@"
 }
 alias mitm-dev-web="mitmweb -p $SPECIAL_CLAUDE_PROXY_PORT $SPECIAL_CLAUDE_PROXY_OPTIONS --set store_streamed_bodies=true "
