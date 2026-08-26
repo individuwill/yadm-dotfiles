@@ -112,6 +112,7 @@ outer.left = [
   { monitor."L1" = 0 },
   { monitor."ARZOPA" = 0 },
   { monitor."MB16A" = 0 },
+  { monitor."Built-in" = 0 },
   { monitor."Sidecar Display" = 0 },
   10,
 ]
@@ -126,6 +127,7 @@ outer.top = [
   { monitor."L1" = 0 },
   { monitor."ARZOPA" = 0 },
   { monitor."MB16A" = 0 },
+  { monitor."Built-in" = 0 },
   { monitor."Sidecar Display" = 0 },
   10,
 ]
@@ -133,6 +135,7 @@ outer.right = [
   { monitor."L1" = 0 },
   { monitor."ARZOPA" = 0 },
   { monitor."MB16A" = 0 },
+  { monitor."Built-in" = 0 },
   { monitor."Sidecar Display" = 0 },
   10,
 ]
@@ -292,9 +295,9 @@ alt-enter = 'exec-and-forget ~/.config/aerospace/spawn_terminal.sh'
 alt-w = 'exec-and-forget ~/.config/aerospace/spawn_browser.sh'
 
 [workspace-to-monitor-force-assignment]
-C = ['MB16A', 'main']
-S = ['MB16A', 'main']
-M = ['MB16A', 'main']
+C = ['MB16A', 'Built-in', 'main']
+S = ['MB16A', 'Built-in', 'main']
+M = ['MB16A', 'Built-in', 'main']
 # S = ['ARZOPA', 'main']
 
 # 'service' binding mode declaration.
@@ -380,4 +383,3 @@ run = ['layout tiling', 'move-node-to-workspace M']
 if.app-id = 'com.apple.Music'
 if.window-title-regex-substring = 'MiniPlayer'
 run = 'layout floating'
-
