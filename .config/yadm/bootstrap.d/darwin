@@ -107,6 +107,8 @@ brew_install anomalyco/tap/opencode
 brew_install thaw
 brew_install most
 brew_install mosh
+brew_install siderolabs/tap/talosctl
+brew_install opentofu
 
 ###############################################################################
 # Applications and fonts
@@ -174,3 +176,27 @@ fi
 printf '\n%s\n' "Bootstrap complete."
 printf '%s\n' "SketchyBar config: $HOME/.config/sketchybar/sketchybarrc"
 
+
+# Hold a key to repeat it instead of showing the accent popup
+defaults write -g ApplePressAndHoldEnabled -bool false
+
+# Faster key repeat
+defaults write -g KeyRepeat -int 1
+
+# Shorter delay before repetition begins
+defaults write -g InitialKeyRepeat -int 10
+
+# Disable automatic capitalization
+defaults write -g NSAutomaticCapitalizationEnabled -bool false
+
+# Disable automatic period insertion after typing two spaces
+defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
+
+# Disable smart quotes
+defaults write -g NSAutomaticQuoteSubstitutionEnabled -bool false
+
+# Disable smart dashes
+defaults write -g NSAutomaticDashSubstitutionEnabled -bool false
+
+# Disable automatic spelling correction
+defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
