@@ -115,6 +115,21 @@ sketchybar \
            --set clock_utc icon.drawing=off script="$PLUGIN_DIR/clock.sh UTC" \
              update_freq=10
 
+# --- Zellij inbox -----------------------------------------------------------
+# Panes that need attention across all running Zellij sessions (Zellij 0.46 attention inbox; programs report via
+# OSC 7501, Claude Code natively). Hidden when nothing needs you. Red = something is waiting on you (permission,
+# question, sign-in), orange = a failure, green = finished and not yet looked at. Click opens Zellij.
+# Bell icon: printf '%s\n' $'\uf0f3'
+sketchybar --add item zellij_inbox right \
+           --set zellij_inbox \
+                     icon= \
+                     drawing=off \
+                     update_freq=5 \
+                     background.drawing=off \
+                     script="$PLUGIN_DIR/zellij_inbox.sh" \
+                     click_script="open -a Zellij" \
+           --subscribe zellij_inbox system_woke
+
 # turn off individual backgrounds
 sketchybar --set clock  background.drawing=off \
            --set volume background.drawing=off \
@@ -209,7 +224,18 @@ sketchybar --add bracket status_bracket volume battery clock \
 
 sketchybar --add event aerospace_workspace_change
 
-for sid in $(aerospace list-workspaces --all); do
+# At login sketchybar can start before AeroSpace (2026-10-26: 5 s earlier), and then `aerospace list-workspaces`
+# returns nothing and no space.* items are ever added. Wait up to 30 s for AeroSpace to answer.
+WORKSPACES=""
+for _ in $(seq 1 60); do
+  WORKSPACES="$(aerospace list-workspaces --all 2>/dev/null)" && [ -n "$WORKSPACES" ] && break
+  sleep 0.5
+done
+FOCUSED_NOW="$(aerospace list-workspaces --focused 2>/dev/null)"
+LAST_SPACE=""
+
+for sid in $WORKSPACES; do
+    LAST_SPACE="$sid"
     sketchybar --add item space.$sid left \
         --subscribe space.$sid aerospace_workspace_change \
         --set space.$sid \
@@ -222,6 +248,7 @@ for sid in $(aerospace list-workspaces --all); do
         label="$sid" \
         click_script="aerospace workspace $sid" \
         script="$CONFIG_DIR/plugins/aerospace.sh $sid"
+    [ "$sid" = "$FOCUSED_NOW" ] && sketchybar --set space.$sid background.color=0x44ffffff label.highlight=on
 done
 
 sketchybar --add item as_window left \
@@ -246,7 +273,7 @@ sketchybar --add item as_mode left \
   --set as_mode script="$PLUGIN_DIR/aerospace_mode.sh"
 
 # put layout + mode right after your last workspace item (e.g. space.9 or space.Z depending what you keep)
-sketchybar --move as_layout after space.T
+[ -n "$LAST_SPACE" ] && sketchybar --move as_layout after "space.$LAST_SPACE"
 sketchybar --move as_mode after as_layout
 
 # turn off individual backgrounds
