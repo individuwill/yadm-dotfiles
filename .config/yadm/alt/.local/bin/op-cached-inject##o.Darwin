@@ -1,0 +1,183 @@
+#!/usr/bin/python3 -I
+"""op-cached-inject: like `op inject -i FILE`, but caches resolved secrets in the macOS login Keychain.
+
+Usage:
+  eval "$(op-cached-inject FILE)"     resolve every op:// reference in FILE and print the result
+  op-cached-inject --refresh FILE     ignore the cache, ask 1Password again, and re-cache
+  op-cached-inject --clear            delete every cached secret
+  op-cached-inject --list             list cached references and their age (never the values)
+
+Why: the 1Password CLI authorizes each terminal pane separately, so `op inject` in a shell
+profile or a direnv .envrc means one prompt per pane. This asks 1Password only for references
+that are not cached (one prompt covers them all), then serves later shells from the Keychain.
+
+A cached secret is used until it is older than OP_CACHE_TTL seconds (default 43200 = 12 hours)
+or the machine has rebooted since it was cached, whichever comes first.
+
+Security trade-off: cached values sit in the login Keychain under the service name below and
+can be read without a prompt by any program running as you (the same exposure as a secret that
+is already exported in your shell environment), but they persist until they expire or you run
+`op-cached-inject --clear`. Nothing is written to disk outside the Keychain.
+
+References are recognised as "op://vault/item/field" or '{{ op://... }}' inside double or single
+quotes, and as a bare {{ op://... }}. Every value is emitted shell-quoted, because the output is
+meant for `eval`; unlike `op inject`, a secret containing $, backticks or quotes is never executed.
+"""
+import base64
+import os
+import re
+import subprocess
+import sys
+import time
+
+SERVICE = "op-cached-inject"
+SECURITY = "/usr/bin/security"
+REF_RE = re.compile(
+    r'"(?:(op://[^"\n]+)|\{\{\s*(op://[^}\n]+?)\s*\}\})"'    # 1, 2: inside double quotes
+    r"|'(?:(op://[^'\n]+)|\{\{\s*(op://[^}\n]+?)\s*\}\})'"   # 3, 4: inside single quotes
+    r"|\{\{\s*(op://[^}\n]+?)\s*\}\}"                          # 5: bare {{ op://... }}
+)
+
+
+def die(msg):
+    sys.stderr.write("op-cached-inject: %s\n" % msg)
+    sys.exit(1)
+
+
+def boot_time():
+    try:
+        out = subprocess.run(["/usr/sbin/sysctl", "-n", "kern.boottime"], capture_output=True, text=True).stdout
+        m = re.search(r"sec = (\d+)", out)
+        return int(m.group(1)) if m else 0
+    except OSError:
+        return 0
+
+
+def cache_get(ref, ttl, boot, now):
+    r = subprocess.run([SECURITY, "find-generic-password", "-s", SERVICE, "-a", ref, "-w"],
+                       capture_output=True, text=True)
+    if r.returncode != 0:
+        return None
+    parts = r.stdout.strip().split(":", 2)
+    if len(parts) != 3 or parts[0] != "v1":
+        return None
+    try:
+        stamp = int(parts[1])
+        value = base64.b64decode(parts[2]).decode("utf-8")
+    except (ValueError, UnicodeDecodeError):
+        return None
+    if now - stamp > ttl or stamp < boot:
+        return None
+    return value
+
+
+def cache_put(ref, value, now):
+    if '"' in ref or "\\" in ref or "\n" in ref:
+        return  # cannot be quoted safely for `security -i`; just skip caching this one
+    blob = "v1:%d:%s" % (now, base64.b64encode(value.encode("utf-8")).decode("ascii"))
+    # Passed on stdin (security -i) so the secret never appears in a process argument list.
+    cmd = 'add-generic-password -U -s %s -a "%s" -w "%s"\n' % (SERVICE, ref, blob)
+    subprocess.run([SECURITY, "-i"], input=cmd, text=True, capture_output=True)
+
+
+def cached_refs():
+    out = subprocess.run([SECURITY, "dump-keychain"], capture_output=True, text=True).stdout
+    refs = []
+    for block in out.split("keychain: ")[1:]:
+        if '"svce"<blob>="%s"' % SERVICE in block:
+            m = re.search(r'"acct"<blob>="(.*)"', block)
+            if m:
+                refs.append(m.group(1))
+    return refs
+
+
+def op_read(ref):
+    op = os.environ.get("OP_CACHED_INJECT_OP", "op")
+    try:
+        r = subprocess.run([op, "read", "--no-newline", ref], stdout=subprocess.PIPE, text=True)
+    except OSError as e:
+        die("cannot run %s: %s" % (op, e))
+    if r.returncode != 0:
+        die("1Password could not resolve %s" % ref)
+    return r.stdout
+
+
+def sh_dq(value):
+    return re.sub(r'([\\"$`])', r"\\\1", value)
+
+
+def sh_sq(value):
+    return value.replace("'", "'\\''")
+
+
+def main(argv):
+    refresh = False
+    args = argv[1:]
+    if not args or args[0] in ("-h", "--help"):
+        sys.stdout.write(__doc__)
+        return 0
+    if args[0] == "--clear":
+        n = 0
+        while subprocess.run([SECURITY, "delete-generic-password", "-s", SERVICE],
+                             capture_output=True).returncode == 0:
+            n += 1
+        sys.stderr.write("op-cached-inject: removed %d cached secret(s)\n" % n)
+        return 0
+    now = int(time.time())
+    if args[0] == "--list":
+        boot = boot_time()
+        for ref in cached_refs():
+            r = subprocess.run([SECURITY, "find-generic-password", "-s", SERVICE, "-a", ref, "-w"],
+                               capture_output=True, text=True)
+            parts = r.stdout.strip().split(":", 2)
+            age = "unknown age"
+            if len(parts) == 3 and parts[1].isdigit():
+                stamp = int(parts[1])
+                age = "cached %dh%02dm ago%s" % ((now - stamp) // 3600, (now - stamp) % 3600 // 60,
+                                                 " (before last reboot; will be refreshed)" if stamp < boot else "")
+            print("%s  [%s]" % (ref, age))
+        return 0
+    if args[0] == "--refresh":
+        refresh = True
+        args = args[1:]
+    if len(args) != 1:
+        die("usage: op-cached-inject [--refresh] FILE | --clear | --list")
+    try:
+        text = open(args[0], encoding="utf-8").read()
+    except OSError as e:
+        die(str(e))
+    try:
+        ttl = int(os.environ.get("OP_CACHE_TTL", "43200"))
+    except ValueError:
+        die("OP_CACHE_TTL must be a number of seconds")
+    boot = boot_time()
+
+    # Lines that are shell comments pass through untouched, so a commented-out reference is
+    # never looked up.
+    lines = text.splitlines(keepends=True)
+    live = "".join(l for l in lines if not l.lstrip().startswith("#"))
+    values = {}
+    for m in REF_RE.finditer(live):
+        ref = next(g for g in m.groups() if g)
+        if ref in values:
+            continue
+        value = None if refresh else cache_get(ref, ttl, boot, now)
+        if value is None:
+            value = op_read(ref)
+            cache_put(ref, value, now)
+        values[ref] = value
+
+    def sub(m):
+        dq = m.group(1) or m.group(2)
+        if dq:
+            return '"%s"' % sh_dq(values[dq])
+        # Single-quoted, or a bare {{ }}: emit a single-quoted shell word, so a secret that
+        # contains spaces or shell metacharacters can never be executed when the output is eval'd.
+        return "'%s'" % sh_sq(values[m.group(3) or m.group(4) or m.group(5)])
+
+    sys.stdout.write("".join(l if l.lstrip().startswith("#") else REF_RE.sub(sub, l) for l in lines))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))

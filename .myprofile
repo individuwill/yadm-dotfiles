@@ -121,14 +121,44 @@ if [[ ! -f "$PRIVATE_ENV" ]]; then
   chmod 600 "$PRIVATE_ENV"
 fi
 
-if [[ -r "$PRIVATE_ENV" ]] && command -v op >/dev/null 2>&1; then
-  if _inj=$(op inject -i "$PRIVATE_ENV"); then
+# Resolve the op:// references with 1Password only when needed. Each terminal pane is a
+# separate 1Password authorization, so running `op inject` in every shell means one prompt per
+# tmux window. A shell started by tmux (or by another shell) inherits the already-resolved
+# values, so skip the call when every variable exported by the file is set to a real value.
+# Force a refresh (e.g. after rotating a secret) with: PRIVATE_ENV_REFRESH=1 exec $SHELL
+_need_inj=${PRIVATE_ENV_REFRESH:-0}
+if [[ -r "$PRIVATE_ENV" && "$_need_inj" != 1 ]]; then
+  while IFS= read -r _line; do
+    case "$_line" in
+      export\ [A-Za-z_]*=*)
+        _n=${_line#export }; _n=${_n%%=*}
+        eval "_v=\${$_n-}"
+        case "$_v" in ""|op://*) _need_inj=1 ;; esac
+        ;;
+    esac
+  done < "$PRIVATE_ENV"
+fi
+if [[ "$_need_inj" == 1 && -r "$PRIVATE_ENV" ]] && command -v op >/dev/null 2>&1; then
+  # op-cached-inject (~/.local/bin) serves the values from the login Keychain for 12 hours, so
+  # only the first shell after expiry or a reboot prompts. Falls back to plain `op inject`.
+  _ok=0
+  if command -v op-cached-inject >/dev/null 2>&1; then
+    if [[ "${PRIVATE_ENV_REFRESH:-0}" == 1 ]]; then
+      _inj=$(op-cached-inject --refresh "$PRIVATE_ENV") && _ok=1
+    else
+      _inj=$(op-cached-inject "$PRIVATE_ENV") && _ok=1
+    fi
+  else
+    _inj=$(op inject -i "$PRIVATE_ENV") && _ok=1
+  fi
+  if [[ "$_ok" == 1 ]]; then
     eval "$_inj"
   else
-    printf 'warning: op inject failed for %s\n' "$PRIVATE_ENV" >&2
+    printf 'warning: resolving 1Password references failed for %s\n' "$PRIVATE_ENV" >&2
   fi
-  unset _inj
+  unset _inj _ok
 fi
+unset _need_inj _line _n _v
 
 ### End private shell env setup ###
 
