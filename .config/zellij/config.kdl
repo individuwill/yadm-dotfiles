@@ -514,3 +514,11 @@ default_mode "locked"
 web_client {
     font "monospace"
 }
+
+// Zellij desktop terminal (`zellij terminal`). Matches the iTerm2 profile: FiraCode Nerd Font 14.
+terminal {
+    font "FiraCode Nerd Font"
+    font_size 14
+    // iTerm2 draws this font heavier than Zellij does at "regular"
+    font_weight "medium"
+}
