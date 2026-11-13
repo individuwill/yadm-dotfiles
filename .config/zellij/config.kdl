@@ -14,6 +14,8 @@ keybinds {
     }
     locked {
         bind "Ctrl g" { SwitchToMode "Normal"; }
+        // tmux-style prefix straight from locked mode; every action returns to locked
+        bind "Ctrl b" { SwitchToMode "Tmux"; }
     }
     resize {
         bind "Ctrl n" { SwitchToMode "Locked"; }
@@ -163,26 +165,42 @@ keybinds {
     }
     tmux {
         bind "[" { SwitchToMode "Scroll"; }
-        bind "Ctrl b" { Write 2; SwitchToMode "Normal"; }
-        bind "\"" { NewPane "Down"; SwitchToMode "Normal"; }
-        bind "%" { NewPane "Right"; SwitchToMode "Normal"; }
-        bind "z" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
-        bind "c" { NewTab; SwitchToMode "Normal"; }
+        bind "Ctrl b" { Write 2; SwitchToMode "Locked"; }
+        bind "\"" { NewPane "Down"; SwitchToMode "Locked"; }
+        bind "%" { NewPane "Right"; SwitchToMode "Locked"; }
+        bind "z" { ToggleFocusFullscreen; SwitchToMode "Locked"; }
+        bind "c" { NewTab; SwitchToMode "Locked"; }
         bind "," { SwitchToMode "RenameTab"; }
-        bind "p" { GoToPreviousTab; SwitchToMode "Normal"; }
-        bind "n" { GoToNextTab; SwitchToMode "Normal"; }
-        bind "Left" { MoveFocus "Left"; SwitchToMode "Normal"; }
-        bind "Right" { MoveFocus "Right"; SwitchToMode "Normal"; }
-        bind "Down" { MoveFocus "Down"; SwitchToMode "Normal"; }
-        bind "Up" { MoveFocus "Up"; SwitchToMode "Normal"; }
-        bind "h" { MoveFocus "Left"; SwitchToMode "Normal"; }
-        bind "l" { MoveFocus "Right"; SwitchToMode "Normal"; }
-        bind "j" { MoveFocus "Down"; SwitchToMode "Normal"; }
-        bind "k" { MoveFocus "Up"; SwitchToMode "Normal"; }
-        bind "o" { FocusNextPane; }
+        bind "p" { GoToPreviousTab; SwitchToMode "Locked"; }
+        bind "n" { GoToNextTab; SwitchToMode "Locked"; }
+        bind "Left" { MoveFocus "Left"; SwitchToMode "Locked"; }
+        bind "Right" { MoveFocus "Right"; SwitchToMode "Locked"; }
+        bind "Down" { MoveFocus "Down"; SwitchToMode "Locked"; }
+        bind "Up" { MoveFocus "Up"; SwitchToMode "Locked"; }
+        bind "h" { MoveFocus "Left"; SwitchToMode "Locked"; }
+        bind "l" { MoveFocus "Right"; SwitchToMode "Locked"; }
+        bind "j" { MoveFocus "Down"; SwitchToMode "Locked"; }
+        bind "k" { MoveFocus "Up"; SwitchToMode "Locked"; }
+        bind "o" { FocusNextPane; SwitchToMode "Locked"; }
         bind "d" { Detach; }
         bind "Space" { NextSwapLayout; }
-        bind "x" { CloseFocus; SwitchToMode "Normal"; }
+        bind "x" { CloseFocus; SwitchToMode "Locked"; }
+        // workpane popup: shows `wp`, any key closes it
+        bind "y" {
+            Run "/bin/bash" "-c" "$HOME/.local/bin/wp; read -rsn1" {
+                floating true
+                close_on_exit true
+                name "workpane"
+                x "5%"
+                y "5%"
+                width "90%"
+                height "90%"
+            };
+            SwitchToMode "Locked"
+        }
+        // attention inbox, and jump to the next pane that needs you
+        bind "i" { ToggleSessionCard; SwitchToMode "Locked"; }
+        bind "a" { GoToNextAttention; SwitchToMode "Locked"; }
     }
     shared_except "locked" {
         bind "Ctrl g" { SwitchToMode "Locked"; }
@@ -521,4 +539,6 @@ terminal {
     font_size 14
     // iTerm2 draws this font heavier than Zellij does at "regular"
     font_weight "medium"
+    // do not jump to another window (and AeroSpace workspace) that already shows the session
+    reuse_session_windows false
 }
