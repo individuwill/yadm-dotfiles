@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "rxrx-autojev": {
+      "url": "https://autojev.mcp.prod.rxrx.io/mcp/autojev-auth",
+      "exposure": "direct",
+      "description": "Recursion's AutoJev decision model: calibrated yes/no, classify and rate judgements about a piece of text"
+    }
+  }
+}
