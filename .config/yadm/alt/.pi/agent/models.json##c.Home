@@ -16,10 +16,17 @@
           "id": "qwen3.6-coder-35b-mtp",
           "name": "Qwen3.6 Coder 35B MTP (ai.misuse.us, always loaded, ~66 t/s)",
           "reasoning": true,
-          "input": ["text"],
+          "input": [
+            "text"
+          ],
           "contextWindow": 65536,
           "maxTokens": 4096,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
           "compat": {
             "thinkingFormat": "qwen"
           }
@@ -28,10 +35,17 @@
           "id": "qwen3.6-coder-35b",
           "name": "Qwen3.6 Coder 35B non-MTP (ai.misuse.us, rollback, ~57 t/s)",
           "reasoning": true,
-          "input": ["text"],
+          "input": [
+            "text"
+          ],
           "contextWindow": 65536,
           "maxTokens": 4096,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
           "compat": {
             "thinkingFormat": "qwen"
           }
@@ -40,28 +54,49 @@
           "id": "gpt-oss-20b",
           "name": "GPT-OSS 20B (ai.misuse.us)",
           "reasoning": true,
-          "input": ["text"],
+          "input": [
+            "text"
+          ],
           "contextWindow": 32768,
           "maxTokens": 4096,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
         },
         {
           "id": "glm-4.7-flash",
           "name": "GLM 4.7 Flash (ai.misuse.us)",
           "reasoning": false,
-          "input": ["text"],
+          "input": [
+            "text"
+          ],
           "contextWindow": 32768,
           "maxTokens": 4096,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
         },
         {
           "id": "qwen3.5-9b-mtp",
           "name": "Qwen3.5 9B MTP (ai.misuse.us, ~42 t/s, on-demand)",
           "reasoning": true,
-          "input": ["text"],
+          "input": [
+            "text"
+          ],
           "contextWindow": 65536,
           "maxTokens": 4096,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
           "compat": {
             "thinkingFormat": "qwen"
           }
@@ -70,19 +105,33 @@
           "id": "qwen2.5-3b",
           "name": "Qwen2.5 3B (ai.misuse.us, always loaded, classifier)",
           "reasoning": false,
-          "input": ["text"],
+          "input": [
+            "text"
+          ],
           "contextWindow": 32768,
           "maxTokens": 4096,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
         },
         {
           "id": "qwen3.6-27b-mtp",
           "name": "Qwen3.6 27B Dense MTP (ai.misuse.us, ~19 t/s, on-demand)",
           "reasoning": true,
-          "input": ["text"],
+          "input": [
+            "text"
+          ],
           "contextWindow": 65536,
           "maxTokens": 4096,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
           "compat": {
             "thinkingFormat": "qwen"
           }
@@ -91,22 +140,36 @@
           "id": "qwen3.6-27b",
           "name": "Qwen3.6 27B Dense non-MTP (ai.misuse.us, rollback, ~11 t/s)",
           "reasoning": true,
-          "input": ["text"],
+          "input": [
+            "text"
+          ],
           "contextWindow": 65536,
           "maxTokens": 4096,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
           "compat": {
             "thinkingFormat": "qwen"
           }
         },
         {
           "id": "gemma-4-26b",
-          "name": "Gemma 4 26B (ai.misuse.us, demoted — Vulkan crash bug)",
+          "name": "Gemma 4 26B (ai.misuse.us, demoted \u2014 Vulkan crash bug)",
           "reasoning": false,
-          "input": ["text"],
+          "input": [
+            "text"
+          ],
           "contextWindow": 32768,
           "maxTokens": 4096,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
         }
       ]
     }

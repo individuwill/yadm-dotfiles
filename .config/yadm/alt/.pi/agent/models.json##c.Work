@@ -1,0 +1,230 @@
+{
+  "providers": {
+    "rxrx-vertex": {
+      "name": "Recursion AI Gateway \u00b7 Vertex AI",
+      "baseUrl": "https://llm.prod.rxrx.io/vertex/v1",
+      "api": "openai-completions",
+      "apiKey": "!/Users/will.smith/.local/share/uv/tools/rxrx-ai-gateway/bin/rxrx-ai-gateway token --okta",
+      "authHeader": true,
+      "headers": {
+        "x-app-id": "pi"
+      },
+      "models": [
+        {
+          "id": "google/gemini-4-argon",
+          "name": "google/gemini-4-argon",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 1048576,
+          "maxTokens": 65536
+        },
+        {
+          "id": "google/gemini-3.8-flash",
+          "name": "google/gemini-3.8-flash",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 1048576,
+          "maxTokens": 65536
+        }
+      ],
+      "compat": {
+        "supportsDeveloperRole": false,
+        "maxTokensField": "max_tokens",
+        "supportsReasoningEffort": false
+      }
+    },
+    "rxrx-openai": {
+      "name": "Recursion AI Gateway \u00b7 OpenAI",
+      "baseUrl": "https://llm.prod.rxrx.io/openai/v1",
+      "api": "openai-completions",
+      "apiKey": "!/Users/will.smith/.local/share/uv/tools/rxrx-ai-gateway/bin/rxrx-ai-gateway token --okta",
+      "authHeader": true,
+      "headers": {
+        "x-app-id": "pi"
+      },
+      "models": [
+        {
+          "id": "gpt-5.5",
+          "name": "gpt-5.5",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 400000,
+          "maxTokens": 64000
+        },
+        {
+          "id": "gpt-5.4-mini",
+          "name": "gpt-5.4-mini",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 400000,
+          "maxTokens": 64000
+        }
+      ],
+      "compat": {
+        "supportsDeveloperRole": true,
+        "maxTokensField": "max_completion_tokens",
+        "supportsReasoningEffort": false
+      }
+    },
+    "rxrx-anthropic": {
+      "name": "Recursion AI Gateway \u00b7 Anthropic",
+      "baseUrl": "https://llm.prod.rxrx.io/anthropic",
+      "api": "anthropic-messages",
+      "apiKey": "!/Users/will.smith/.local/share/uv/tools/rxrx-ai-gateway/bin/rxrx-ai-gateway token --okta",
+      "authHeader": true,
+      "headers": {
+        "x-app-id": "pi"
+      },
+      "models": [
+        {
+          "id": "claude-sonnet-5-5",
+          "name": "claude-sonnet-5-5",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 200000,
+          "maxTokens": 64000
+        },
+        {
+          "id": "claude-haiku-5-5",
+          "name": "claude-haiku-5-5",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 200000,
+          "maxTokens": 64000
+        }
+      ],
+      "compat": {
+        "forceAdaptiveThinking": true
+      }
+    },
+    "rxrx-anthropic-zdr": {
+      "name": "Recursion AI Gateway \u00b7 Anthropic ZDR",
+      "baseUrl": "https://llm.prod.rxrx.io/anthropic-zdr",
+      "api": "anthropic-messages",
+      "apiKey": "!/Users/will.smith/.local/share/uv/tools/rxrx-ai-gateway/bin/rxrx-ai-gateway token --okta",
+      "authHeader": true,
+      "headers": {
+        "x-app-id": "pi"
+      },
+      "models": [
+        {
+          "id": "claude-sonnet-5-5",
+          "name": "claude-sonnet-5-5",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 200000,
+          "maxTokens": 64000
+        },
+        {
+          "id": "claude-haiku-5-5",
+          "name": "claude-haiku-5-5",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 200000,
+          "maxTokens": 64000
+        }
+      ],
+      "compat": {
+        "forceAdaptiveThinking": true
+      }
+    },
+    "rxrx-anthropic-nonzdr": {
+      "name": "Recursion AI Gateway \u00b7 Anthropic non-ZDR (retained 30 days)",
+      "baseUrl": "https://llm.prod.rxrx.io/anthropic-nonzdr",
+      "api": "anthropic-messages",
+      "apiKey": "!/Users/will.smith/.local/share/uv/tools/rxrx-ai-gateway/bin/rxrx-ai-gateway token --okta",
+      "authHeader": true,
+      "headers": {
+        "x-app-id": "pi"
+      },
+      "models": [
+        {
+          "id": "claude-sonnet-5-5",
+          "name": "claude-sonnet-5-5",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 200000,
+          "maxTokens": 64000
+        },
+        {
+          "id": "claude-haiku-5-5",
+          "name": "claude-haiku-5-5",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 200000,
+          "maxTokens": 64000
+        }
+      ],
+      "compat": {
+        "forceAdaptiveThinking": true
+      }
+    },
+    "rxrx-biohive": {
+      "name": "Recursion AI Gateway \u00b7 BioHive",
+      "baseUrl": "https://llm.prod.rxrx.io/biohive/v1",
+      "api": "openai-completions",
+      "apiKey": "!/Users/will.smith/.local/share/uv/tools/rxrx-ai-gateway/bin/rxrx-ai-gateway token --okta",
+      "authHeader": true,
+      "headers": {
+        "x-app-id": "pi"
+      },
+      "models": [
+        {
+          "id": "Qwen/Qwen3.8-27B-FP8",
+          "name": "Qwen/Qwen3.8-27B-FP8",
+          "reasoning": true,
+          "input": [
+            "text"
+          ],
+          "contextWindow": 262144,
+          "maxTokens": 32768
+        },
+        {
+          "id": "Qwen/Qwen3.8-Flash-Next",
+          "name": "Qwen/Qwen3.8-Flash-Next",
+          "reasoning": true,
+          "input": [
+            "text"
+          ],
+          "contextWindow": 262144,
+          "maxTokens": 32768
+        }
+      ],
+      "compat": {
+        "supportsDeveloperRole": false,
+        "maxTokensField": "max_tokens",
+        "thinkingFormat": "qwen-chat-template"
+      }
+    }
+  }
+}

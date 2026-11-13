@@ -1,0 +1,6 @@
+{
+  "lastChangelogVersion": "1.5.2",
+  "defaultProvider": "ai.misuse.us",
+  "defaultModel": "qwen3.6-27b-mtp",
+  "packages": []
+}

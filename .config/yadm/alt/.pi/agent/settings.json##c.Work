@@ -1,0 +1,6 @@
+{
+  "lastChangelogVersion": "1.5.2",
+  "defaultProvider": "rxrx-biohive",
+  "defaultModel": "Qwen/Qwen3.8-27B-FP8",
+  "packages": []
+}
