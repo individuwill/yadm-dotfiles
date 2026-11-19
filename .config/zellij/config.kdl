@@ -171,6 +171,8 @@ keybinds {
         bind "z" { ToggleFocusFullscreen; SwitchToMode "Locked"; }
         bind "c" { NewTab; SwitchToMode "Locked"; }
         bind "," { SwitchToMode "RenameTab"; }
+        // tmux: "," renames the window (a tab here), "$" renames the session
+        bind "$" { SwitchToMode "RenameSession"; SessionNameInput 0; }
         bind "p" { GoToPreviousTab; SwitchToMode "Locked"; }
         bind "n" { GoToNextTab; SwitchToMode "Locked"; }
         bind "Left" { MoveFocus "Left"; SwitchToMode "Locked"; }
@@ -542,3 +544,12 @@ terminal {
     // do not jump to another window (and AeroSpace workspace) that already shows the session
     reuse_session_windows false
 }
+
+// Launching Zellij opens the session "main" (creating it the first time) instead of a new
+// randomly named session each launch. Other sessions are reached from the session list.
+session_name "main"
+attach_to_session true
+
+// Started from the Dock, Finder or Alfred there is no SHELL in the environment (launchd does not set
+// one), and Zellij then falls back to /bin/sh, which reads none of the zsh setup. Name the shell.
+default_shell "zsh"
