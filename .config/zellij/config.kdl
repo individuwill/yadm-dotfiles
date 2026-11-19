@@ -173,6 +173,14 @@ keybinds {
         bind "," { SwitchToMode "RenameTab"; }
         // tmux: "," renames the window (a tab here), "$" renames the session
         bind "$" { SwitchToMode "RenameSession"; SessionNameInput 0; }
+        // tmux: "s" chooses a session; here it opens the session manager (new, switch, rename, delete)
+        bind "s" {
+            LaunchOrFocusPlugin "session-manager" {
+                floating true
+                move_to_focused_tab true
+            };
+            SwitchToMode "Locked"
+        }
         bind "p" { GoToPreviousTab; SwitchToMode "Locked"; }
         bind "n" { GoToNextTab; SwitchToMode "Locked"; }
         bind "Left" { MoveFocus "Left"; SwitchToMode "Locked"; }
