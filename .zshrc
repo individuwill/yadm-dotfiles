@@ -1,3 +1,11 @@
+# A shell that is not a login shell (a Zellij pane started from the Dock or Alfred) never runs
+# /etc/zprofile, so it lacks the system paths (/usr/local/bin: code, docker, cursor, zed) and LANG.
+# Do here what /etc/zprofile does for a login shell.
+if [[ ! -o login && -x /usr/libexec/path_helper ]]; then
+  eval "$(/usr/libexec/path_helper -s)"
+  [[ -n "$LANG" ]] || export LANG=C.UTF-8
+fi
+
 if [[ -x /opt/homebrew/bin/brew ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
